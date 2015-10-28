@@ -2,6 +2,7 @@
 namespace Unisharp\Unifly;
 
 use Illuminate\Support\ServiceProvider;
+use Unisharp\Unifly\Console\Commands\TranslatableMigrationCreator;
 
 class UniflyServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,13 @@ class UniflyServiceProvider extends ServiceProvider
             return new \Unisharp\Unifly\Console\Commands\ViewMakeCommand($app['files']);
         });
 
+        $this->app->singleton('unisharp::make:us-trans-migration', function ($app) {
+            return new \Unisharp\Unifly\Console\Commands\TranslatableMigrationMakeCommand(
+                new TranslatableMigrationCreator($app['files']),
+                $app['composer']
+            );
+        });
+
         $this->app->singleton('unisharp::make:entity', function ($app) {
             return new \Unisharp\Unifly\Console\Commands\MakeEntity($app['files']);
         });
@@ -43,6 +51,7 @@ class UniflyServiceProvider extends ServiceProvider
             'unisharp::make:us-repository',
             'unisharp::make:us-presenter',
             'unisharp::make:us-view',
+            'unisharp::make:us-trans-migration',
             'unisharp::make:entity',
         ]);
     }
