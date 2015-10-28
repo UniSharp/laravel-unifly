@@ -1,0 +1,41 @@
+extends ../scaffold/index.jade
+block main
+  div.row
+    div.col-lg-12
+      h1.page-header.
+        title
+      .container-fluid
+        include ../partial/flash
+        include ../partial/breadcrumbs
+        form(action!="{{route('backend.DummyEntityLowerCaseFIXME.store')}}", method="POST", enctype='multipart/form-data')
+          .row.form-group
+            label.control-label.col-md-2 Name
+            .col-md-10
+              input.form-control(type='text', name='name',  value!="")
+          .row.form-group
+            label.control-label.col-md-2
+            .col-md-10
+              textarea.form-control(name='')
+          .row.form-group
+            label.control-label.col-md-2
+            .col-md-10
+              input.form-control(type='checkbox', name='',  value!="")
+          .row.form-group
+            label.control-label.col-md-2(for='')
+            .col-md-10
+              label.radio-inline
+                input(type='radio', name='', value='', checked)
+          .row.form-group
+            label.control-label.col-md-2
+            .col-md-10
+              input.form-control(type='number', name='',  value!="")
+          .row.form-group
+            label.control-label.col-md-2
+            .col-md-10
+              input.form-control(type='file', name='',  value!="")
+
+          .row.form-group
+            input(type='hidden', name='_token', value!="{{csrf_token()}}")
+            .col-md-2
+            .col-md-10
+              input.btn.btn-success(type='submit', value="{{_('Create')}}")

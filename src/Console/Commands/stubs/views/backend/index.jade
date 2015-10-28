@@ -1,0 +1,51 @@
+extends ../scaffold/index.jade
+
+block main
+  div.row
+    div.col-lg-12
+      h1.page-header.
+        title
+
+      .container-fluid
+        .row(style='margin-bottom:10px;')
+          .col-md-1
+            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') 建立
+          .col-md-2
+            form(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
+              .input-group
+                input.form-control(name='query', type='text')
+                .input-group-btn
+                  button.btn.btn-default(type='submit', aria-label='Help')
+                    span.glyphicon.glyphicon-search
+          .col-md-1.pull-right
+            a.btn.btn-info(href!='/backend/DummyEntityLowerCaseFIXME/export') 匯出
+
+        .row
+          include ../partial/flash
+          include ../partial/breadcrumbs
+          table.table.table-striped.table-bordered.table-hover
+            thead
+              tr
+                th Name
+                th
+                th
+                th
+                th 功能
+            tbody
+              | @foreach (d('main.collection') as $entity)
+              tr
+                td {{ $entity->title }}
+                td
+                td
+                td
+                td
+                  form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCaseFIXME.destroy', $entity->id)}}", method='POST')
+                    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.edit", $entity->id)}}') {{_('edit')}}
+                    input(type='hidden', name='_method', value="DELETE")
+                    input(type='hidden', name='_token', value="{{csrf_token()}}")
+                    input.btn.btn-danger(type='submit', value='x')
+              | @endforeach
+
+          | {!! d('main.collection')->render() !!}
+block javascript
+  include ../../partial/del-form

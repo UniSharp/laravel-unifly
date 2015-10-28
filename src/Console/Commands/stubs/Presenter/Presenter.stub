@@ -1,0 +1,38 @@
+<?php
+namespace DummyNamespace;
+
+use App\Entity\DummyEntity;
+
+class DummyClass
+{
+    public $entity;
+
+    public function __construct(DummyEntity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    public function setIndexBreadcrumb()
+    {
+        carrier_set('main.breadcrumbs', [
+            ['title' => 'Title', 'link' => 'http://link'],
+            ['title' => 'Title', 'link' => 'http://link'],
+        ]);
+    }
+
+    public function setCreateBreadcrumb()
+    {
+        carrier_set('main.breadcrumbs', [
+            ['title' => 'Title', 'link' => 'http://link'],
+            ['title' => 'Title', 'link' => 'http://link'],
+        ]);
+    }
+
+    public function setUpdateBreadcrumb()
+    {
+        carrier_set('main.breadcrumbs', [
+            ['title' => 'Title', 'link' => 'http://link'],
+            ['title' => 'Title', 'link' => 'http://link'],
+        ]);
+    }
+}

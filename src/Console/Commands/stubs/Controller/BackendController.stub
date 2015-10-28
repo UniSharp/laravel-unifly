@@ -1,0 +1,138 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use DummyRootNamespaceRepository\DummyEntityRepo;
+use DummyRootNamespacePresenter\DummyEntityPresenter;
+
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\CreateFormRequest;
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\UpdateFormRequest;
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\DestroyFormRequest;
+use Unisharp\DataCarrier\DataCarrier;
+
+class DummyClass extends Controller
+{
+    protected $repo;
+    protected $presenter;
+    protected $d; // DataCarrier
+
+    public function __construct(DummyEntityRepo $repo, DummyEntityPresenter $presenter)
+    {
+        $this->repo = $repo;
+        $this->presenter = $presenter;
+        $this->d = \App::make('DataCarrier');
+        $this->d->set('head.site_title', 'title');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $query = \Request::input('query', null);
+        if (empty($query)) {
+            $this->d->set('main.collection', $this->repo->search($query));
+        } else {
+            $this->d->set('main.collection', $this->repo->getAll());
+        }
+
+        $this->presenter->setIndexBreadCrumb();
+        return view('backend.DummyEntityLowerCase.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $this->presenter->setCreateBreadCrumb();
+        return view('backend.DummyEntityLowerCase.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function store(CreateFormRequest $request)
+    {
+        //
+        $this->repo->create($request->input());
+        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        $entity = $this->repo->get($id);
+        if (!$entity) {
+            abort(404);
+        }
+        $this->d->set('main.entity', $entity);
+        $this->presenter->setEditBreadCrumb();
+        return view('backend.DummyEntityLowerCase.show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $entity = $this->repo->get($id);
+        if (!$entity) {
+            abort(404);
+        }
+
+        $this->d->set('main.entity', $entity);
+        return view('backend.DummyEntityLowerCase.edit');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(UpdateFormRequest $request, $id)
+    {
+        //
+        $this->repo->update($id, $request->input());
+        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy(DestroyFormRequest $request, $id)
+    {
+        //
+        $this->repo->delete($id);
+        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
+    }
+
+    public function export()
+    {
+        $this->repo->export();
+    }
+}
