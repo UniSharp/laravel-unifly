@@ -1,5 +1,5 @@
 {
-  "name": "unisharp/laravel-arca",
+  "name": "unisharp/laravel-unifly",
   "description": "it can generate entities by arca principle",
   "type": "library",
   "keywords": ["data", "api", "laravel"],
@@ -19,7 +19,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Unisharp\\Arca\\": "src/"
+      "Unisharp\\Unifly\\": "src/"
     }
   }
 }
