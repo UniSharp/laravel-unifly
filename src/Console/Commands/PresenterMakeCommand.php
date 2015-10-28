@@ -1,6 +1,6 @@
 <?php
 
-namespace Unisharp\Arca\Console\Commands;
+namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
@@ -24,7 +24,7 @@ class PresenterMakeCommand extends UsGeneratorCommand
 
     public function getStub()
     {
-        return __DIR__ . 'stubs/Presenter/Presenter.stub';
+        return __DIR__ . '/stubs/Presenter/Presenter.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)

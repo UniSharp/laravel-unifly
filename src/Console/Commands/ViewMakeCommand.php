@@ -1,6 +1,6 @@
 <?php
 
-namespace Unisharp\Console\Commands\Us;
+namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
@@ -51,6 +51,6 @@ class ViewMakeCommand extends UsGeneratorCommand
     public function getStub()
     {
         $lower_entityname = strtolower($this->entityname);
-        return base_path("template/views/{$this->for}/{$this->view_name}.jade");
+        return __DIR__ . "/stubs/views/{$this->for}/{$this->view_name}.jade";
     }
 }

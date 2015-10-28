@@ -1,5 +1,5 @@
 <?php
-namespace Unisharp\Arca\Console\Commands;
+namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Database\Migrations\MigrationCreator;
 use Illuminate\Support\Str;
@@ -23,6 +23,6 @@ class TranslatableMigrationCreator extends MigrationCreator
 
     protected function getStub($table, $create)
     {
-        return $this->files->get(base_path('template/database/migration/translatable.stub'));
+        return $this->files->get(__DIR__ .'/stubs/database/migration/translatable.stub');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Unisharp\Arca\Console\Commands;
+namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Filesystem\Filesystem;
 
@@ -45,9 +45,9 @@ class ControllerMakeCommand extends UsGeneratorCommand
     public function getStub()
     {
         if ($this->for == 'backend') {
-            return __DIR__ . 'stubs/Controller/BackendController.stub';
+            return __DIR__ . '/stubs/Controller/BackendController.stub';
         }
-        return __DIR__ . 'stubs/Controller/FrontendController.stub';
+        return __DIR__ . '/stubs/Controller/FrontendController.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)

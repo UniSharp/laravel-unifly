@@ -1,5 +1,5 @@
 <?php
-namespace Unisharp\Arca\Console\Commands;
+namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
 use Illuminate\Foundation\Composer;

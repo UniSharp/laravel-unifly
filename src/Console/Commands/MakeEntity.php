@@ -1,6 +1,6 @@
 <?php
 
-namespace Unisharp\Arca\Console\Commands;
+namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;

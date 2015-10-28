@@ -1,6 +1,6 @@
 <?php
 
-namespace Unisharp\Arca\Console\Commands;
+namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
@@ -24,7 +24,7 @@ class RepositoryMakeCommand extends UsGeneratorCommand
 
     public function getStub()
     {
-        return __DIR__ . 'stubs/Repository/Repo.stub';
+        return __DIR__ . '/stubs/Repository/Repo.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
