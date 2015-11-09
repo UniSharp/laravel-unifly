@@ -34,11 +34,6 @@ class PresenterMakeCommand extends UsGeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        if ($this->for == 'api') {
-            $ns = $rootNamespace . '\Presenter';
-            $ns .= '\\' . Str::studly($this->for);
-            return $ns;
-        }
         return $rootNamespace . '\Presenter';
     }
 
