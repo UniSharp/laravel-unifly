@@ -35,15 +35,9 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        $query = \Request::input('query', null);
-        if (empty($query)) {
-            $this->d->set('main.collection', $this->repo->search($query));
-        } else {
-            $this->d->set('main.collection', $this->repo->getAll());
-        }
 
-        $this->presenter->setIndexBreadCrumb();
-        return view('backend.DummyEntityLowerCase.index');
+        $data = $this->repo->getAll();
+        return $this->presenter->json($data->toArray(), 200);
     }
 
     /**
@@ -53,8 +47,6 @@ class DummyClass extends Controller
      */
     public function create()
     {
-        $this->presenter->setCreateBreadCrumb();
-        return view('backend.DummyEntityLowerCase.create');
     }
 
     /**
@@ -66,8 +58,6 @@ class DummyClass extends Controller
     public function store(CreateFormRequest $request)
     {
         //
-        $this->repo->create($request->input());
-        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
     }
 
     /**
@@ -78,13 +68,8 @@ class DummyClass extends Controller
      */
     public function show($id)
     {
-        $entity = $this->repo->get($id);
-        if (!$entity) {
-            abort(404);
-        }
-        $this->d->set('main.entity', $entity);
-        $this->presenter->setEditBreadCrumb();
-        return view('backend.DummyEntityLowerCase.show');
+        $data = $this->get($id);
+        return $this->presenter->json($data->toArray(), 200);
     }
 
     /**
@@ -95,13 +80,6 @@ class DummyClass extends Controller
      */
     public function edit($id)
     {
-        $entity = $this->repo->get($id);
-        if (!$entity) {
-            abort(404);
-        }
-
-        $this->d->set('main.entity', $entity);
-        return view('backend.DummyEntityLowerCase.edit');
     }
 
     /**
@@ -113,9 +91,6 @@ class DummyClass extends Controller
      */
     public function update(UpdateFormRequest $request, $id)
     {
-        //
-        $this->repo->update($id, $request->input());
-        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
     }
 
     /**
@@ -126,13 +101,5 @@ class DummyClass extends Controller
      */
     public function destroy(DestroyFormRequest $request, $id)
     {
-        //
-        $this->repo->delete($id);
-        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
-    }
-
-    public function export()
-    {
-        $this->repo->export();
     }
 }
