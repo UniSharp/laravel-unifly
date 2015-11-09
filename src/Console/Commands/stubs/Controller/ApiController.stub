@@ -57,7 +57,8 @@ class DummyClass extends Controller
      */
     public function store(CreateFormRequest $request)
     {
-        //
+        $this->repo->create($request->input());
+        return $this->presenter->json(null, 200);
     }
 
     /**
@@ -91,6 +92,8 @@ class DummyClass extends Controller
      */
     public function update(UpdateFormRequest $request, $id)
     {
+        $this->repo->update($request->input());
+        return $this->presenter->json(null, 200);
     }
 
     /**
