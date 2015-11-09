@@ -34,20 +34,18 @@ class PresenterMakeCommand extends UsGeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Presenter';
+        $ns = $rootNamespace . '\Presenter';
+        $specifyNamespace = ['backend', 'api'];
+
+        if (in_array($this->for, $specifyNamespace)) {
+            $ns .= '\\' . Str::studly($this->for);
+        }
+
+        return $ns;
     }
 
     protected function getPath($name)
     {
-        if ($this->for == 'api') {
-            // \App\Presenter\SomePresenter => \App\Presenter\Api\SomePresenter
-            $name = str_replace($this->laravel->getNamespace(), '', $name);
-            $name = explode('\\', $name);
-            array_splice($name, 1, null, 'Api');
-            $name = implode('\\', $name);
-            return $this->laravel['path'].'/'.str_replace('\\', '/', $name).'.php';
-        }
-
         return parent::getPath($name);
     }
 }
