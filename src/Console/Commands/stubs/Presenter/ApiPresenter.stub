@@ -1,0 +1,16 @@
+<?php
+namespace DummyNamespace;
+
+use Unisharp\Unifly\Presenter\ApiPresenter;
+use App\Entity\DummyEntity;
+
+class DummyClass extends ApiPresenter
+{
+    public $entity;
+
+    public function __construct(DummyEntity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+}

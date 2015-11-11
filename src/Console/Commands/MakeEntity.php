@@ -54,42 +54,44 @@ class MakeEntity extends Command
             )
         );
 
-        \Artisan::call(
-            'make:us-view',
-            [
-                'name' => 'index',
-                'entity_name' => $entity,
-                '--for' => $for,
-            ]
-        );
+        if ($for !== 'api') {
+            \Artisan::call(
+                'make:us-view',
+                [
+                    'name' => 'index',
+                    'entity_name' => $entity,
+                    '--for' => $for,
+                ]
+            );
 
 
-        \Artisan::call(
-            'make:us-view',
-            [
-                'name' => 'create',
-                'entity_name' => $entity,
-                '--for' => $for,
-            ]
-        );
+            \Artisan::call(
+                'make:us-view',
+                [
+                    'name' => 'create',
+                    'entity_name' => $entity,
+                    '--for' => $for,
+                ]
+            );
 
-        \Artisan::call(
-            'make:us-view',
-            [
-                'name' => 'show',
-                'entity_name' => $entity,
-                '--for' => $for,
-            ]
-        );
+            \Artisan::call(
+                'make:us-view',
+                [
+                    'name' => 'show',
+                    'entity_name' => $entity,
+                    '--for' => $for,
+                ]
+            );
 
-        \Artisan::call(
-            'make:us-view',
-            [
-                'name' => 'edit',
-                'entity_name' => $entity,
-                '--for' => $for,
-            ]
-        );
+            \Artisan::call(
+                'make:us-view',
+                [
+                    'name' => 'edit',
+                    'entity_name' => $entity,
+                    '--for' => $for,
+                ]
+            );
+        }
 
         if ($this->option('translatable')) {
             $table = Str::plural(Str::snake($entity));

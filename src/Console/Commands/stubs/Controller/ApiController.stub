@@ -1,0 +1,108 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use DummyRootNamespaceRepository\DummyEntityRepo;
+use DummyRootNamespacePresenter\Api\DummyEntityPresenter;
+
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\CreateFormRequest;
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\UpdateFormRequest;
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\DestroyFormRequest;
+use Unisharp\DataCarrier\DataCarrier;
+
+class DummyClass extends Controller
+{
+    protected $repo;
+    protected $presenter;
+    protected $d; // DataCarrier
+
+    public function __construct(DummyEntityRepo $repo, DummyEntityPresenter $presenter)
+    {
+        $this->repo = $repo;
+        $this->presenter = $presenter;
+        $this->d = \App::make('DataCarrier');
+        $this->d->set('head.site_title', 'title');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+
+        $data = $this->repo->getAll();
+        return $this->presenter->json($data->toArray(), 200);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function store(CreateFormRequest $request)
+    {
+        $this->repo->create($request->input());
+        return $this->presenter->json(null, 200);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        $data = $this->get($id);
+        return $this->presenter->json($data->toArray(), 200);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(UpdateFormRequest $request, $id)
+    {
+        $this->repo->update($request->input());
+        return $this->presenter->json(null, 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy(DestroyFormRequest $request, $id)
+    {
+    }
+}

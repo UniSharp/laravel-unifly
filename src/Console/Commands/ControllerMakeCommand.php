@@ -3,6 +3,7 @@
 namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class ControllerMakeCommand extends UsGeneratorCommand
 {
@@ -46,6 +47,8 @@ class ControllerMakeCommand extends UsGeneratorCommand
     {
         if ($this->for == 'backend') {
             return __DIR__ . '/stubs/Controller/BackendController.stub';
+        } elseif ($this->for == 'api') {
+            return __DIR__ . '/stubs/Controller/ApiController.stub';
         }
         return __DIR__ . '/stubs/Controller/FrontendController.stub';
     }
@@ -53,9 +56,12 @@ class ControllerMakeCommand extends UsGeneratorCommand
     protected function getDefaultNamespace($rootNamespace)
     {
         $ns = $rootNamespace . '\Http\Controllers';
-        if ($this->for == 'backend') {
-            $ns = $ns . '\Backend';
+        $specifyNamespace = ['backend', 'api'];
+
+        if (in_array($this->for, $specifyNamespace)) {
+            $ns .= '\\' . Str::studly($this->for);
         }
+
         return $ns;
     }
 }

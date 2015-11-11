@@ -3,6 +3,7 @@
 namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Str;
 
 class PresenterMakeCommand extends UsGeneratorCommand
 {
@@ -24,11 +25,27 @@ class PresenterMakeCommand extends UsGeneratorCommand
 
     public function getStub()
     {
+        if ($this->for == 'api') {
+            return __DIR__ . '/stubs/Presenter/ApiPresenter.stub';
+        }
+
         return __DIR__ . '/stubs/Presenter/Presenter.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Presenter';
+        $ns = $rootNamespace . '\Presenter';
+        $specifyNamespace = ['backend', 'api'];
+
+        if (in_array($this->for, $specifyNamespace)) {
+            $ns .= '\\' . Str::studly($this->for);
+        }
+
+        return $ns;
+    }
+
+    protected function getPath($name)
+    {
+        return parent::getPath($name);
     }
 }
