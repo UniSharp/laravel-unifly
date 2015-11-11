@@ -67,7 +67,7 @@ class DummyClass extends Controller
     {
         //
         $this->repo->create($request->input());
-        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
+        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('建立成功'));
     }
 
     /**
@@ -115,7 +115,7 @@ class DummyClass extends Controller
     {
         //
         $this->repo->update($id, $request->input());
-        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
+        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('儲存成功'));
     }
 
     /**
@@ -128,7 +128,7 @@ class DummyClass extends Controller
     {
         //
         $this->repo->delete($id);
-        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', ' ');
+        return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('刪除成功'));
     }
 
     public function export()

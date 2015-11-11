@@ -1,41 +1,53 @@
 extends ../scaffold/index.jade
-block main
-  div.row
-    div.col-lg-12
-      h1.page-header.
-        title
+
+block content
+  .row
+    .col-lg-12
+      h1.page-header {{_('新增x')}}
       .container-fluid
         include ../partial/flash
         include ../partial/breadcrumbs
-        form(action!="{{route('backend.DummyEntityLowerCaseFIXME.store')}}", method="POST", enctype='multipart/form-data')
-          .row.form-group
-            label.control-label.col-md-2 Name
+        form.form-horizontal(action!="{{route('backend.DummyEntityLowerCaseFIXME.store')}}", method="POST", enctype='multipart/form-data')
+          .form-group
+            label.control-label.col-md-2 {{_('x名稱')}}
             .col-md-10
-              input.form-control(type='text', name='name',  value!="")
-          .row.form-group
-            label.control-label.col-md-2
+              input.form-control(type='text', name='title',  value!="")
+          .form-group
+            label.control-label.col-md-2 {{_('內容')}}
             .col-md-10
-              textarea.form-control(name='')
-          .row.form-group
-            label.control-label.col-md-2
+              textarea.form-control(name='content')
+          .form-group
+            label.control-label.col-md-2 {{_('多選選項')}}
             .col-md-10
-              input.form-control(type='checkbox', name='',  value!="")
-          .row.form-group
-            label.control-label.col-md-2(for='')
+              .checkbox
+                label
+                  input(type='checkbox', name='',  value!="")
+                  | item 1
+              .checkbox
+                label
+                  input(type='checkbox', name='',  value!="")
+                  | item 2
+          .form-group
+            label.control-label.col-md-2(for='') {{_('擇一選項')}}
             .col-md-10
               label.radio-inline
-                input(type='radio', name='', value='', checked)
-          .row.form-group
-            label.control-label.col-md-2
+                input(type='radio', name='radio', value='', checked)
+                | option 1
+              label.radio-inline
+                input(type='radio', name='radio', value='')
+                | option 2
+          .form-group
+            label.control-label.col-md-2 {{_('數量')}}
             .col-md-10
               input.form-control(type='number', name='',  value!="")
-          .row.form-group
-            label.control-label.col-md-2
+          .form-group
+            label.control-label.col-md-2 {{_('檔案')}}
             .col-md-10
               input.form-control(type='file', name='',  value!="")
 
-          .row.form-group
-            input(type='hidden', name='_token', value!="{{csrf_token()}}")
-            .col-md-2
-            .col-md-10
-              input.btn.btn-success(type='submit', value="{{_('Create')}}")
+          .form-group
+            | {{ csrf_field() }}
+            .col-md-10.col-md-offset-2
+              .btn-toolbar
+                input.btn.btn-success(type='submit', value="{{_('建立')}}")
+                a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}

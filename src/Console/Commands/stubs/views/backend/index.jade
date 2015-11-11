@@ -1,15 +1,13 @@
 extends ../scaffold/index.jade
 
-block main
-  div.row
-    div.col-lg-12
-      h1.page-header.
-        title
-
+block content
+  .row
+    .col-lg-12
+      h1.page-header {{_('x列表')}}
       .container-fluid
         .row(style='margin-bottom:10px;')
           .col-md-1
-            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') 建立
+            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') {{_('新增')}}
           .col-md-2
             form(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
               .input-group
@@ -18,7 +16,7 @@ block main
                   button.btn.btn-default(type='submit', aria-label='Help')
                     span.glyphicon.glyphicon-search
           .col-md-1.pull-right
-            a.btn.btn-info(href!='/backend/DummyEntityLowerCaseFIXME/export') 匯出
+            a.btn.btn-info(href!='/backend/DummyEntityLowerCaseFIXME/export') {{_('匯出')}}
 
         .row
           include ../partial/flash
@@ -26,26 +24,27 @@ block main
           table.table.table-striped.table-bordered.table-hover
             thead
               tr
-                th Name
+                th {{_('x名稱')}}
                 th
                 th
                 th
-                th 功能
+                th {{_('操作')}}
             tbody
               | @foreach (d('main.collection') as $entity)
               tr
-                td {{ $entity->title }}
+                td.del-name {{ $entity->title }}
                 td
                 td
                 td
                 td
                   form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCaseFIXME.destroy', $entity->id)}}", method='POST')
-                    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.edit", $entity->id)}}') {{_('edit')}}
-                    input(type='hidden', name='_method', value="DELETE")
-                    input(type='hidden', name='_token', value="{{csrf_token()}}")
-                    input.btn.btn-danger(type='submit', value='x')
+                    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.edit", $entity->id)}}') {{_('修改')}}
+                    | {{ csrf_field() }}
+                    | {{ method_field('DELETE') }}
+                    input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
               | @endforeach
 
           | {!! d('main.collection')->render() !!}
+
 block javascript
   include ../../partial/del-form
