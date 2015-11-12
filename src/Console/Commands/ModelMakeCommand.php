@@ -1,17 +1,15 @@
 <?php
-
 namespace Unisharp\Unifly\Console\Commands;
 
-use Illuminate\Console\GeneratorCommand;
 
-class ModelMakeCommand extends UsGeneratorCommand
+class ModelMakeCommand extends \Illuminate\Foundation\Console\ModelMakeCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:us-model {name} {entity_name} {--for=backend}';
+    protected $name = 'make:us-model';
 
     /**
      * The console command description.
@@ -19,7 +17,6 @@ class ModelMakeCommand extends UsGeneratorCommand
      * @var string
      */
     protected $description = 'Command description.';
-    protected $type = 'Entity';
 
 
     public function getStub()

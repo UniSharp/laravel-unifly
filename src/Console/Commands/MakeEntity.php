@@ -96,14 +96,14 @@ class MakeEntity extends Command
         if ($this->option('translatable')) {
             $table = Str::plural(Str::snake($entity));
             \Artisan::call(
-                'make:model',
+                'make:us-model',
                 [
                     'name' => 'Entity\\' . $entity
                 ]
             );
 
             \Artisan::call(
-                'make:model',
+                'make:us-model',
                 [
                     'name' => 'Entity\\' . $entity . 'Translation'
                 ]
@@ -118,7 +118,7 @@ class MakeEntity extends Command
             );
         } else {
             \Artisan::call(
-                'make:model',
+                'make:us-model',
                 [
                     'name' => 'Entity\\' . $entity,
                     '--migration' => 'default'
@@ -148,15 +148,6 @@ class MakeEntity extends Command
             'make:us-presenter',
             [
                 'name' => $entity . 'Presenter',
-                'entity_name' => $entity,
-                '--for' => $for,
-            ]
-        );
-
-        \Artisan::call(
-            'make:us-model',
-            [
-                'name' => $entity,
                 'entity_name' => $entity,
                 '--for' => $for,
             ]
