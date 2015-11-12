@@ -27,8 +27,8 @@ class UniflyServiceProvider extends ServiceProvider
             return new \Unisharp\Unifly\Console\Commands\PresenterMakeCommand($app['files']);
         });
 
-        $this->app->singleton('unisharp::make:us-presenter', function ($app) {
-            return new \Unisharp\Unifly\Console\Commands\PresenterMakeCommand($app['files']);
+        $this->app->singleton('unisharp::make:us-model', function ($app) {
+            return new \Unisharp\Unifly\Console\Commands\ModelMakeCommand($app['files']);
         });
 
         $this->app->singleton('unisharp::make:us-view', function ($app) {

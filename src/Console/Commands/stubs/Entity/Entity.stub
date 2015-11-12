@@ -1,0 +1,22 @@
+<?php
+
+namespace DummyNamespace;
+
+use Unisharp\Unifly\Entity\UniflyEntity;
+
+class DummyClass extends UniflyEntity
+{
+    protected $guarded = [];
+
+    protected $translatedAttributes = [];
+
+    // TODO Write your autocreate attribute here
+    protected $should_be_created_attr = [
+        'name'
+    ];
+
+    // TODO Write your autoupdate attribute here
+    protected $should_be_updated_attr = [
+        'name'
+    ];
+}

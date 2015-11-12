@@ -1,4 +1,5 @@
 <?php
+
 namespace DummyNamespace;
 
 use App\Entity\DummyEntity;
@@ -29,45 +30,18 @@ class DummyClass
 
     public function create(Array $input, $locale = null)
     {
-        // TODO Write your autocreate attribute here
-        $should_be_created_attr = [
-
-        ];
-
-        // it's a reminder exception, if you don't add any attribute
-        if (empty($should_be_created_attr)) {
-            throw new \InvalidArgumentException("Are you sure you don't want create anything?");
-        }
-
-        if ($locale == null) {
-            $locale = config('app.fallback_locale');
-        }
-
-        $translatedAttributes = $this->entity->translatedAttributes ?: [];
-        $translatedInput = [];
-
-        // Should remove input attribute which not necessary
-        foreach ($input as $k => $attr) {
-            // check auto create attribute is exist in input array
-            if (!in_array($k, $should_be_created_attr)) {
-                unset($input[$k]);
-            } elseif (in_array($k, $translatedAttributes)) {
-                $translatedInput[$k] = $attr;
-                unset($input[$k]);
-            }
-        }
-
-        $input[$locale] = $translatedInput;
-        // if attr not in input, it should be add default value
-        foreach ($should_be_created_attr as $attr) {
-            // check auto create attribute is exist in input array
-            if (!array_key_exists($attr, $input) && !in_array($attr, $translatedAttributes)) {
-                // do more guard here
-                $input[$attr] = null;
-            }
-        }
+        $attrs = $this->entity->getAttrs('create');
+        $trans = $this->entity->pullTransInputs($input, $attrs);
+        $input = $this->entity->checkInputExist($input, $attrs);
 
         $entity = $this->entity->create($input);
+
+        if (method_exists($entity, 'translatOrNew')) {
+            $locale = $locale ?: config('app.fallback_locale');
+            foreach ($trans as $k => $v) {
+                $entity->translateOrNew($locale)->$k = $v;
+            }
+        }
 
         $entity->save();
         return $entity;
@@ -75,50 +49,19 @@ class DummyClass
 
     public function update($id, Array $input, $locale = null)
     {
-        // TODO Write your autoupdate attribute here
-        $should_be_updated_attr = [
-
-        ];
-
-        // it's a reminder exception, if you don't add any attribute
-        if (empty($should_be_updated_attr)) {
-            throw new \InvalidArgumentException("Are you sure you don't want update anything?");
-        }
-
-        if ($locale == null) {
-            $locale = config('app.fallback_locale');
-        }
+        $attrs = $this->entity->getAttrs('update');
+        $trans = $this->entity->pullTransInputs($input, $attrs);
+        $input = $this->entity->checkInputExist($input, $attrs);
 
         $entity = $this->entity->findOrFail($id);
-        $translatedAttributes = $this->entity->translatedAttributes ?: [];
-        $translatedInput = [];
-
-        // Should remove input attribute which not necessary
-        foreach ($input as $k => $attr) {
-            // check auto create attribute is exist in input array
-            if (!in_array($k, $should_be_updated_attr)) {
-                unset($input[$k]);
-            } elseif (in_array($attr, $translatedAttributes)) {
-                $translatedInput[$k] = $attr;
-                unset($input[$k]);
-            }
-        }
-
-        // if attr not in input, it shoulb be add default value
-        foreach ($should_be_updated_attr as $attr) {
-            // check auto create attribute is exist in input array
-            if (!array_key_exists($attr, $input)) {
-                // do more guard here
-                $input[$attr] = null;
-            }
-        }
 
         foreach ($input as $k => $v) {
             $entity->$k = $v;
         }
 
         if (method_exists($entity, 'translatOrNew')) {
-            foreach ($translatedInput as $k => $v) {
+            $locale = $locale ?: config('app.fallback_locale');
+            foreach ($trans as $k => $v) {
                 $entity->translateOrNew($locale)->$k = $v;
             }
         }

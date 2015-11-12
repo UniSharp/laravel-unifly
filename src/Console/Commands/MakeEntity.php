@@ -154,6 +154,15 @@ class MakeEntity extends Command
         );
 
         \Artisan::call(
+            'make:us-model',
+            [
+                'name' => $entity,
+                'entity_name' => $entity,
+                '--for' => $for,
+            ]
+        );
+
+        \Artisan::call(
             'make:request',
             [
                 'name' => ucfirst($for) . '\\' . $entity . '\\CreateFormRequest'
