@@ -36,7 +36,7 @@ class DummyClass extends Controller
     public function index()
     {
         $query = \Request::input('query', null);
-        if (empty($query)) {
+        if (!empty($query)) {
             $this->d->set('main.collection', $this->repo->search($query));
         } else {
             $this->d->set('main.collection', $this->repo->getAll());
