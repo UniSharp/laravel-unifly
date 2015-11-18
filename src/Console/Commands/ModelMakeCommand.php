@@ -23,9 +23,4 @@ class ModelMakeCommand extends \Illuminate\Foundation\Console\ModelMakeCommand
     {
         return __DIR__ . '/stubs/Entity/Entity.stub';
     }
-
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace . '\Entity';
-    }
 }
