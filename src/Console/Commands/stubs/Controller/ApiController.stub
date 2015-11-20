@@ -9,7 +9,7 @@ use DummyRootNamespaceHttp\Controllers\Controller;
 use DummyRootNamespaceRepository\DummyEntityRepo;
 use DummyRootNamespacePresenter\Api\DummyEntityPresenter;
 
-use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\CreateFormRequest;
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\StoreFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\UpdateFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\DestroyFormRequest;
 use Unisharp\DataCarrier\DataCarrier;

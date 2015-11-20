@@ -156,7 +156,7 @@ class MakeEntity extends Command
         \Artisan::call(
             'make:request',
             [
-                'name' => ucfirst($for) . '\\' . $entity . '\\CreateFormRequest'
+                'name' => ucfirst($for) . '\\' . $entity . '\\StoreFormRequest'
             ]
         );
 
