@@ -83,7 +83,6 @@ class DummyClass extends Controller
             abort(404);
         }
         $this->d->set('main.entity', $entity);
-        $this->presenter->setEditBreadCrumb();
         return view('backend.DummyEntityLowerCase.show');
     }
 
@@ -100,6 +99,7 @@ class DummyClass extends Controller
             abort(404);
         }
 
+        $this->presenter->setEditBreadCrumb();
         $this->d->set('main.entity', $entity);
         return view('backend.DummyEntityLowerCase.edit');
     }

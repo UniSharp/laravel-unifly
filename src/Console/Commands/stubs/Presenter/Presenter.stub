@@ -29,7 +29,7 @@ class DummyClass
         ]);
     }
 
-    public function setUpdateBreadcrumb()
+    public function setEditBreadcrumb()
     {
         carrier_set('main.breadcrumbs', [
             ['title' => 'Title', 'link' => 'http://link'],
