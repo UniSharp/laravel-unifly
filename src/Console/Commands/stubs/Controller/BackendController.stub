@@ -63,7 +63,7 @@ class DummyClass extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(CreateFormRequest $request)
+    public function store(StoreFormRequest $request)
     {
         //
         $this->repo->create($request->input());
