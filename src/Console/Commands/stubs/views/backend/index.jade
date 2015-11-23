@@ -6,22 +6,22 @@ block content
       h1.page-header {{_('x列表')}}
       .container-fluid
         .row(style='margin-bottom:10px;')
-          .col-md-1
-            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') {{_('新增')}}
-          .col-md-2
-            form(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
-              .input-group
-                input.form-control(name='query', type='text')
-                .input-group-btn
-                  button.btn.btn-default(type='submit', aria-label='Help')
-                    span.glyphicon.glyphicon-search
-          .col-md-1.pull-right
-            a.btn.btn-info(href!='/backend/DummyEntityLowerCaseFIXME/export') {{_('匯出')}}
+            include ../partial/breadcrumbs
+            .btn-toolbar
+              a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') {{_('新增')}}
+              a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCaseFIXME/export') {{_('匯出')}}
+              .pull-right
+                form.form-inline(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
+                  .input-group
+                    input.form-control(name='query', type='text')
+                    .input-group-btn
+                      button.btn.btn-default(type='submit', aria-label='Help')
+                        span.glyphicon.glyphicon-search
+
 
         .row
           include ../partial/flash
-          include ../partial/breadcrumbs
-          table.table.table-striped.table-bordered.table-hover
+          table.table.table-striped.table-middle.table-bordered.table-hover
             thead
               tr
                 th {{_('x名稱')}}
