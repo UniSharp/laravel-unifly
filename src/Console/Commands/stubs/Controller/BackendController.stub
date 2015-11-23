@@ -9,7 +9,7 @@ use DummyRootNamespaceHttp\Controllers\Controller;
 use DummyRootNamespaceRepository\DummyEntityRepo;
 use DummyRootNamespacePresenter\DummyEntityPresenter;
 
-use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\CreateFormRequest;
+use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\StoreFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\UpdateFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\DestroyFormRequest;
 use Unisharp\DataCarrier\DataCarrier;
@@ -63,7 +63,7 @@ class DummyClass extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(CreateFormRequest $request)
+    public function store(StoreFormRequest $request)
     {
         //
         $this->repo->create($request->input());
@@ -83,7 +83,6 @@ class DummyClass extends Controller
             abort(404);
         }
         $this->d->set('main.entity', $entity);
-        $this->presenter->setEditBreadCrumb();
         return view('backend.DummyEntityLowerCase.show');
     }
 
@@ -100,6 +99,7 @@ class DummyClass extends Controller
             abort(404);
         }
 
+        $this->presenter->setEditBreadCrumb();
         $this->d->set('main.entity', $entity);
         return view('backend.DummyEntityLowerCase.edit');
     }
