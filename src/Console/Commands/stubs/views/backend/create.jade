@@ -5,45 +5,84 @@ block content
     .col-lg-12
       h1.page-header {{_('新增x')}}
       .container-fluid
-        include ../partial/flash
         include ../partial/breadcrumbs
         form.form-horizontal(action!="{{route('backend.DummyEntityLowerCaseFIXME.store')}}", method="POST", enctype='multipart/form-data')
-          .form-group
+          | <?php $class = ($errors->has('title')) ? 'has-error has-feedback' : '';?>
+          .form-group(class='{{$class}}')
             label.control-label.col-md-2 {{_('x名稱')}}
             .col-md-10
-              input.form-control(type='text', name='title',  value!="")
-          .form-group
+              input.form-control(type='text', name='title',  value!="{{old('title')}}")
+              | @if($errors->has('title'))
+              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
+                span.sr-only
+              span#helpBlock2.help-block {{ $errors->first('title') }}
+              | @endif
+          | <?php $class = ($errors->has('content')) ? 'has-error has-feedback' : '';?>
+          .form-group(class='{{$class}}')
             label.control-label.col-md-2 {{_('內容')}}
             .col-md-10
-              textarea.form-control(name='content')
-          .form-group
+              textarea.form-control(name='content') {{old('content')}}
+              | @if($errors->has('content'))
+              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
+                span.sr-only
+              span#helpBlock2.help-block {{ $errors->first('content') }}
+              | @endif
+          | <?php $class = ($errors->has('option')) ? 'has-error has-feedback' : '';?>
+          .form-group(class='{{$class}}')
             label.control-label.col-md-2 {{_('多選選項')}}
             .col-md-10
               .checkbox
                 label
-                  input(type='checkbox', name='',  value!="")
+                  | <?php $checked = (old('option') === 1) ? 'checked' : '';?>
+                  input(type='checkbox', name='option',  value!="1", {{$checked}})
                   | item 1
               .checkbox
                 label
-                  input(type='checkbox', name='',  value!="")
+                  | <?php $checked = (old('option') === 2) ? 'checked' : '';?>
+                  input(type='checkbox', name='option',  value!="2", {{$checked}})
                   | item 2
-          .form-group
+              | @if($errors->has('option'))
+              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
+                span.sr-only
+              span#helpBlock2.help-block {{ $errors->first('option') }}
+              | @endif
+          | <?php $class = ($errors->has('radio')) ? 'has-error has-feedback' : '';?>
+          .form-group(class='{{$class}}')
             label.control-label.col-md-2(for='') {{_('擇一選項')}}
             .col-md-10
               label.radio-inline
-                input(type='radio', name='radio', value='', checked)
-                | option 1
+                | <?php $checked = (old('radio') === 1) ? 'checked' : '';?>
+                input(type='radio', name='radio', value='', {{$checked}})
+                | radio 1
               label.radio-inline
-                input(type='radio', name='radio', value='')
-                | option 2
-          .form-group
+                | <?php $checked = (old('radio') === 0) ? 'checked' : '';?>
+                input(type='radio', name='radio', value='', {{$checked}})
+                | radio 2
+              | @if($errors->has('radio'))
+              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
+                span.sr-only
+              span#helpBlock2.help-block {{ $errors->first('radio') }}
+              | @endif
+          | <?php $class = ($errors->has('quantity')) ? 'has-error has-feedback' : '';?>
+          .form-group(class='{{$class}}')
             label.control-label.col-md-2 {{_('數量')}}
             .col-md-10
-              input.form-control(type='number', name='',  value!="")
-          .form-group
+              input.form-control(type='number', name='quantity',  value!="{{old('quantity')}}")
+              | @if($errors->has('quantity'))
+              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
+                span.sr-only
+              span#helpBlock2.help-block {{ $errors->first('quantity') }}
+              | @endif
+          | <?php $class = ($errors->has('file')) ? 'has-error has-feedback' : '';?>
+          .form-group(class='{{$class}}')
             label.control-label.col-md-2 {{_('檔案')}}
             .col-md-10
               input.form-control(type='file', name='',  value!="")
+              | @if($errors->has('file'))
+              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
+                span.sr-only
+              span#helpBlock2.help-block {{ $errors->first('file') }}
+              | @endif
 
           .form-group
             | {{ csrf_field() }}
