@@ -9,15 +9,15 @@ block content
         include ../partial/breadcrumbs
         form.form-horizontal(action!="{{route('backend.DummyEntityLowerCaseFIXME.update', d('main.entity')->id)}}", method="POST", enctype='multipart/form-data')
           .form-group
-            label.control-label.col-md-2 {{_('x名稱')}}
+            label.control-label.col-md-2(for="title") {{_('x名稱')}}
             .col-md-10
               input.form-control(type='text', name='title',  value!="{{ old('title', d('main.entity')->title) }}")
           .form-group
-            label.control-label.col-md-2 {{_('內容')}}
+            label.control-label.col-md-2(for="content") {_('內容')}}
             .col-md-10
               textarea.form-control(name='content') {!! old('content', d('main.entity')->content) !!}
           .form-group
-            label.control-label.col-md-2 {{_('多選選項')}}
+            label.control-label.col-md-2(for="") {{_('多選選項')}}
             .col-md-10
               .checkbox
                 label
@@ -28,20 +28,20 @@ block content
                   input(type='checkbox', name='',  value!="")
                   | item 2
           .form-group
-            label.control-label.col-md-2(for='') {{_('擇一選項')}}
+            label.control-label.col-md-2(for="") {{_('擇一選項')}}
             .col-md-10
-              label.radio-inline
+              label.radio-inline(for="")
                 input(type='radio', name='radio', value='', checked)
                 | option 1
-              label.radio-inline
+              label.radio-inline(for="")
                 input(type='radio', name='radio', value='')
                 | option 2
           .form-group
-            label.control-label.col-md-2 {{_('數量')}}
+            label.control-label.col-md-2(for="") {{_('數量')}}
             .col-md-10
               input.form-control(type='number', name='',  value!="")
           .form-group
-            label.control-label.col-md-2 {{_('檔案')}}
+            label.control-label.col-md-2(for="") {{_('檔案')}}
             .col-md-2
               .thumbnail
                 img(src!="")

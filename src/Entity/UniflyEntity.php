@@ -4,7 +4,7 @@ namespace Unisharp\Unifly\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UniflyEntity extends Model
+abstract class UniflyEntity extends Model
 {
     protected $translatedAttributes = [];
 
