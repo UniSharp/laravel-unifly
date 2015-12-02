@@ -24,11 +24,11 @@ mixin form(action, method)
     | {{ csrf_field() }}
     | {{ method_field('#{method}') }}
     block
-      .form-group
-        .col-md-10.col-md-offset-2
-          .btn-toolbar
-            input.btn.btn-success(type='submit', value="{{_('#{submit}')}}")
-            a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}
+    .form-group
+      .col-md-10.col-md-offset-2
+        .btn-toolbar
+          input.btn.btn-success(type='submit', value="{{_('#{submit}')}}")
+          a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}
 
 mixin wrapper(attr)
   | <?php $class = ($errors->has('#{attr}')) ? 'has-error has-feedback' : '';?>
@@ -36,22 +36,22 @@ mixin wrapper(attr)
     block
 
 mixin error-block(attr)
-  | @if($errors->has('#{attr}'))
+  |  @if($errors->has('#{attr}'))
   span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
     span.sr-only
   span#helpBlock2.help-block {{ $errors->first('#{attr}') }}
-  | @endif
+  |  @endif
 
-mixin input(attr, name)
+mixin input(attr, display)
   +wrapper(attr)
-    label.control-label.col-md-2(for=attr) {{_('#{name}')}}
+    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
     .col-md-10
       input.form-control(type='text', id=attr, name=attr,  value!="{{ old('#{attr}', d('main.entity')->#{attr}) }}")
       +error-block(attr)
 
-mixin textarea(attr, name)
+mixin textarea(attr, display)
   +wrapper(attr)
-    label.control-label.col-md-2(for=attr) {{_('#{name}')}}
+    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
     .col-md-10
       textarea.form-control.ckeditor(id=attr, name=attr) {!! old('#{attr}', d('main.entity')->#{attr}) !!}
       +error-block('description')

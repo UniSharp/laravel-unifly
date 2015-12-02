@@ -24,11 +24,11 @@ mixin form(action, method)
     | {{ csrf_field() }}
     | {{ method_field('#{method}') }}
     block
-      .form-group
-        .col-md-10.col-md-offset-2
-          .btn-toolbar
-            input.btn.btn-success(type='submit', value="{{_('#{submit}')}}")
-            a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}
+    .form-group
+      .col-md-10.col-md-offset-2
+        .btn-toolbar
+          input.btn.btn-success(type='submit', value="{{_('#{submit}')}}")
+          a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}
 
 mixin wrapper(attr)
   | <?php $class = ($errors->has('#{attr}')) ? 'has-error has-feedback' : '';?>
