@@ -72,13 +72,13 @@ mixin file(attr, display)
 
 mixin checkbox(attr, display, options)
   +wrapper(attr)
-    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
+    label.control-label.col-md-2 {{_('#{display}')}}
     .col-md-10
       | <?php $attr = old('#{attr}');?>
       | @foreach(#{options} as $key => $option)
       .checkbox
         label
-          | <?php $checked = ($attr === 1) ? 'checked' : '';?>
+          | <?php $checked = (in_array($key, $attr)) ? 'checked' : '';?>
           input(type='checkbox', name=attr, value!="{{$key}}", {{$checked}})
           | {{$option}}
       | @endforeach
@@ -91,7 +91,7 @@ mixin radio(attr, display, items)
       | <?php $attr = old('#{attr}');?>
       | @foreach(#{items} as $key => $item)
       label.radio-inline
-        | <?php $checked = ($attr === $key) ? 'checked' : '';?>
+        | <?php $checked = ($attr == $key) ? 'checked' : '';?>
         input(type='radio', name=attr, value='{{$key}}', "{{$checked}}")
         | {{$item}}
       | @endforeach
