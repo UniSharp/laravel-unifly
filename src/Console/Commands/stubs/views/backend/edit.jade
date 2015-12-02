@@ -6,93 +6,93 @@ block content
       h1.page-header {{_('修改x')}}
       .container-fluid
         include ../partial/breadcrumbs
-        form.form-horizontal(action!="{{route('backend.DummyEntityLowerCaseFIXME.update', d('main.entity')->id)}}", method="POST", enctype='multipart/form-data')
-          | <?php $class = ($errors->has('title')) ? 'has-error has-feedback' : '';?>
-          .form-group(class='{{$class}}')
-            label.control-label.col-md-2(for='') {{_('x名稱')}}
-            .col-md-10
-              input.form-control(type='text', name='title',  value!="{{ old('title', d('main.entity')->title) }}")
-              | @if($errors->has('title'))
-              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
-                span.sr-only
-              span#helpBlock2.help-block {{ $errors->first('title') }}
-              | @endif
-          | <?php $class = ($errors->has('content')) ? 'has-error has-feedback' : '';?>
-          .form-group(class='{{$class}}')
-            label.control-label.col-md-2(for='') {{_('內容')}}
-            .col-md-10
-              textarea.form-control(name='content') {!! old('content', d('main.entity')->content) !!}
-              | @if($errors->has('content'))
-              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
-                span.sr-only
-              span#helpBlock2.help-block {{ $errors->first('content') }}
-              | @endif
-          | <?php $class = ($errors->has('option')) ? 'has-error has-feedback' : '';?>
-          .form-group(class='{{$class}}')
-            label.control-label.col-md-2(for='') {{_('多選選項')}}
-            .col-md-10
-              | <?php $option = old('option', d('main.entity')->option);?>
-              .checkbox
-                label(for='')
-                  | <?php $checked = ($option == 1) ? 'checked' : '';?>
-                  input(type='checkbox', name='option',  value!="1", {{$checked}})
-                  | item 1
-              .checkbox
-                label(for='')
-                  | <?php $checked = ($option == 2) ? 'checked' : '';?>
-                  input(type='checkbox', name='option',  value!="2", {{$checked}})
-                  | item 2
-              | @if($errors->has('option'))
-              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
-                span.sr-only
-              span#helpBlock2.help-block {{ $errors->first('option') }}
-              | @endif
-          | <?php $class = ($errors->has('radio')) ? 'has-error has-feedback' : '';?>
-          .form-group(class='{{$class}}')
-            label.control-label.col-md-2(for='') {{_('擇一選項')}}
-            .col-md-10
-              | <?php $radio = old('radio', d('main.entity')->radio);?>
-              label.radio-inline(for='')
-                | <?php $checked = ($option == 1) ? 'checked' : '';?>
-                input(type='radio', name='radio', value='1', {{$checked}})
-                | radio 1
-              label.radio-inline(for='')
-                | <?php $checked = ($option == 0) ? 'checked' : '';?>
-                input(type='radio', name='radio', value='0', {{$checked}})
-                | radio 2
-              | @if($errors->has('radio'))
-              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
-                span.sr-only
-              span#helpBlock2.help-block {{ $errors->first('radio') }}
-              | @endif
-          | <?php $class = ($errors->has('quantity')) ? 'has-error has-feedback' : '';?>
-          .form-group(class='{{$class}}')
-            label.control-label.col-md-2(for='') {{_('數量')}}
-            .col-md-10
-              input.form-control(type='number', name='quantity',  value!="")
-              | @if($errors->has('quantity'))
-              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
-                span.sr-only
-              span#helpBlock2.help-block {{ $errors->first('quantity') }}
-              | @endif
-          | <?php $class = ($errors->has('file')) ? 'has-error has-feedback' : '';?>
-          .form-group(class='{{$class}}')
-            label.control-label.col-md-2(for='') {{_('檔案')}}
-            .col-md-2
-              .thumbnail
-                img(src!="")
-            .col-md-8
-              input.form-control(type='file', name='',  value!="")
-              | @if($errors->has('file'))
-              span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
-                span.sr-only
-              span#helpBlock2.help-block {{ $errors->first('file') }}
-              | @endif
+        +form("{{route('backend.DummyEntityLowerCaseFIXME.update', d('main.entity')->id)}}", 'PUT')
+          +input('title', 'x名稱')
+          +textarea('description', '敘述')
+          +number('quantity', '數量')
+          +file('main_image', '主圖')
+          | <?php $options = ['option 1', 'option 2'];?>
+          +checkbox('options', '多選選項', "$options")
+          | <?php $yn = [1 => '是', 0 => '否'];?>
+          +radio('on', '是否上架', "$yn")
 
-          .form-group
-            | {{ csrf_field() }}
-            | {{ method_field('PUT') }}
-            .col-md-10.col-md-offset-2
-              .btn-toolbar
-                input.btn.btn-success(type='submit', value="{{_('儲存')}}")
-                a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}
+
+mixin form(action, method)
+  - method = method || 'POST'
+  - submit = method == 'POST' ? '建立' : '儲存'
+  form.form-horizontal(action!=action, method="POST", enctype='multipart/form-data')
+    | {{ csrf_field() }}
+    | {{ method_field('#{method}') }}
+    block
+      .form-group
+        .col-md-10.col-md-offset-2
+          .btn-toolbar
+            input.btn.btn-success(type='submit', value="{{_('#{submit}')}}")
+            a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}
+
+mixin wrapper(attr)
+  | <?php $class = ($errors->has('#{attr}')) ? 'has-error has-feedback' : '';?>
+  .form-group(class='{{$class}}')
+    block
+
+mixin error-block(attr)
+  | @if($errors->has('#{attr}'))
+  span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
+    span.sr-only
+  span#helpBlock2.help-block {{ $errors->first('#{attr}') }}
+  | @endif
+
+mixin input(attr, name)
+  +wrapper(attr)
+    label.control-label.col-md-2 {{_('#{name}')}}
+    .col-md-10
+      input.form-control(type='text', name=attr,  value!="{{ old('#{attr}', d('main.entity')->#{attr}) }}")
+      +error-block(attr)
+
+mixin textarea(attr, name)
+  +wrapper(attr)
+    label.control-label.col-md-2 {{_('#{name}')}}
+    .col-md-10
+      textarea.form-control.ckeditor(name=attr) {!! old('#{attr}', d('main.entity')->#{attr}) !!}
+      +error-block('description')
+
+mixin number(attr, display)
+  +wrapper(attr)
+    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
+    .col-md-10
+      input.form-control(type='number', id=attr, name=attr, value!="{{old('#{attr}')}}")
+      +error-block(attr)
+
+mixin file(attr, display)
+  +wrapper(attr)
+    label.control-label.col-md-2(for=attr) {{_('檔案')}}
+    .col-md-10
+      input.form-control(type='file', id=attr, name=attr)
+      +error-block(attr)
+
+mixin checkbox(attr, display, options)
+  +wrapper(attr)
+    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
+    .col-md-10
+      | <?php $attr = old('#{attr}', d('main.entity')->#{attr});?>
+      | @foreach(#{options} as $key => $option)
+      .checkbox
+        label
+          | <?php $checked = ($attr === 1) ? 'checked' : '';?>
+          input(type='checkbox', name=attr, value!="{{$key}}", {{$checked}})
+          | {{$option}}
+      | @endforeach
+      +error-block(attr)
+
+mixin radio(attr, display, items)
+  +wrapper(attr)
+    label.control-label.col-md-2 {{_('#{display}')}}
+    .col-md-10
+      | <?php $attr = old('#{attr}', d('main.entity')->#{attr});?>
+      | @foreach(#{items} as $key => $item)
+      label.radio-inline
+        | <?php $checked = ($attr === $key) ? 'checked' : '';?>
+        input(type='radio', name=attr, value='{{$key}}', "{{$checked}}")
+        | {{$item}}
+      | @endforeach
+      +error-block(attr)
