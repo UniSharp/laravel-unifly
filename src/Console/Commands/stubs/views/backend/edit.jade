@@ -3,11 +3,11 @@ extends ../scaffold/index.jade
 block content
   .row
     .col-lg-12
-      h1.page-header {{_('修改x')}}
+      h1.page-header {{_('修改Entity')}}
+      include ../partial/breadcrumbs
       .container-fluid
-        include ../partial/breadcrumbs
         +form("{{route('backend.DummyEntityLowerCaseFIXME.update', d('main.entity')->id)}}", 'PUT')
-          +input('title', 'x名稱')
+          +input('name', 'Entity名稱')
           +textarea('description', '敘述')
           +number('quantity', '數量')
           +file('main_image', '主圖')
@@ -16,83 +16,4 @@ block content
           | <?php $yn = [1 => '是', 0 => '否'];?>
           +radio('on', '是否上架', "$yn")
 
-
-mixin form(action, method)
-  - method = method || 'POST'
-  - submit = method == 'POST' ? '建立' : '儲存'
-  form.form-horizontal(action!=action, method="POST", enctype='multipart/form-data')
-    | {{ csrf_field() }}
-    | {{ method_field('#{method}') }}
-    block
-    .form-group
-      .col-md-10.col-md-offset-2
-        .btn-toolbar
-          input.btn.btn-success(type='submit', value="{{_('#{submit}')}}")
-          a.btn.btn-default(onclick='history.go(-1)') {{_('取消')}}
-
-mixin wrapper(attr)
-  | <?php $class = ($errors->has('#{attr}')) ? 'has-error has-feedback' : '';?>
-  .form-group(class='{{$class}}')
-    block
-
-mixin error-block(attr)
-  |  @if($errors->has('#{attr}'))
-  span.glyphicon.glyphicon-remove.form-control-feedback(aria-hidden="true")
-    span.sr-only
-  span#helpBlock2.help-block {{ $errors->first('#{attr}') }}
-  |  @endif
-
-mixin input(attr, display)
-  +wrapper(attr)
-    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
-    .col-md-10
-      input.form-control(type='text', id=attr, name=attr,  value!="{{ old('#{attr}', d('main.entity')->#{attr}) }}")
-      +error-block(attr)
-
-mixin textarea(attr, display)
-  +wrapper(attr)
-    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
-    .col-md-10
-      textarea.form-control.ckeditor(id=attr, name=attr) {!! old('#{attr}', d('main.entity')->#{attr}) !!}
-      +error-block('description')
-
-mixin number(attr, display)
-  +wrapper(attr)
-    label.control-label.col-md-2(for=attr) {{_('#{display}')}}
-    .col-md-10
-      input.form-control(type='number', id=attr, name=attr, value!="{{old('#{attr}')}}")
-      +error-block(attr)
-
-mixin file(attr, display)
-  +wrapper(attr)
-    label.control-label.col-md-2(for=attr) {{_('檔案')}}
-    .col-md-10
-      input.form-control(type='file', id=attr, name=attr)
-      +error-block(attr)
-
-mixin checkbox(attr, display, options)
-  +wrapper(attr)
-    label.control-label.col-md-2 {{_('#{display}')}}
-    .col-md-10
-      | <?php $attr = old('#{attr}', d('main.entity')->#{attr});?>
-      | @foreach(#{options} as $key => $option)
-      .checkbox
-        label
-          | <?php $checked = (in_array($key, $attr)) ? 'checked' : '';?>
-          input(type='checkbox', name=attr, value!="{{$key}}", {{$checked}})
-          | {{$option}}
-      | @endforeach
-      +error-block(attr)
-
-mixin radio(attr, display, items)
-  +wrapper(attr)
-    label.control-label.col-md-2 {{_('#{display}')}}
-    .col-md-10
-      | <?php $attr = old('#{attr}', d('main.entity')->#{attr});?>
-      | @foreach(#{items} as $key => $item)
-      label.radio-inline
-        | <?php $checked = ($attr == $key) ? 'checked' : '';?>
-        input(type='radio', name=attr, value='{{$key}}', "{{$checked}}")
-        | {{$item}}
-      | @endforeach
-      +error-block(attr)
+include ../partial/mixin_edit

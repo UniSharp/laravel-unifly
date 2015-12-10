@@ -3,20 +3,20 @@ extends ../scaffold/index.jade
 block content
   .row
     .col-lg-12
-      h1.page-header {{_('x列表')}}
+      h1.page-header {{_('Entity列表')}}
+      include ../partial/breadcrumbs
       .container-fluid
         .row(style='margin-bottom:10px;')
-            include ../partial/breadcrumbs
-            .btn-toolbar
-              a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') {{_('新增')}}
-              a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCaseFIXME/export') {{_('匯出')}}
-              .pull-right
-                form.form-inline(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
-                  .input-group
-                    input.form-control(name='query', type='text')
-                    .input-group-btn
-                      button.btn.btn-default(type='submit', aria-label='Help')
-                        span.glyphicon.glyphicon-search
+          .btn-toolbar
+            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') {{_('新增')}}
+            a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCaseFIXME/export') {{_('匯出')}}
+            .pull-right
+              form.form-inline(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
+                .input-group
+                  input.form-control(name='query', type='text')
+                  .input-group-btn
+                    button.btn.btn-default(type='submit', aria-label='Help')
+                      span.glyphicon.glyphicon-search
 
 
         .row
@@ -24,7 +24,7 @@ block content
           table.table.table-striped.table-middle.table-bordered.table-hover
             thead
               tr
-                th {{_('x名稱')}}
+                th {{_('Entity名稱')}}
                 th
                 th
                 th
@@ -32,7 +32,7 @@ block content
             tbody
               | @foreach (d('main.collection') as $entity)
               tr
-                td.del-name {{ $entity->title }}
+                td.del-name {{ $entity->name }}
                 td
                 td
                 td
