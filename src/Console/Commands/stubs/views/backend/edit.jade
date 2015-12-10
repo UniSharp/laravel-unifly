@@ -11,9 +11,15 @@ block content
           +textarea('description', '敘述')
           +number('quantity', '數量')
           +file('main_image', '主圖')
+          +datetime('time', '時間')
+          | <?php $types = ['類型一', '類型二'];?>
+          +select('type', '類型', "$types")
           | <?php $options = ['option 1', 'option 2'];?>
           +checkbox('options', '多選選項', "$options")
           | <?php $yn = [1 => '是', 0 => '否'];?>
           +radio('on', '是否上架', "$yn")
 
-include ../partial/mixin_edit
+block javascript
+  +datetimepicker
+
+include ../partial/mixin_edit.jade
