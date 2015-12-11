@@ -24,6 +24,7 @@ class DummyClass extends Controller
     {
         $this->repo = $repo;
         $this->presenter = $presenter;
+        $this->presenter->initFormData();
         $this->d = \App::make('DataCarrier');
         $this->d->set('head.site_title', 'title');
     }
@@ -65,7 +66,6 @@ class DummyClass extends Controller
      */
     public function store(StoreFormRequest $request)
     {
-        //
         $this->repo->create($request->input());
         return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('建立成功'));
     }
@@ -113,7 +113,6 @@ class DummyClass extends Controller
      */
     public function update(UpdateFormRequest $request, $id)
     {
-        //
         $this->repo->update($id, $request->input());
         return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('儲存成功'));
     }
@@ -126,7 +125,6 @@ class DummyClass extends Controller
      */
     public function destroy(DestroyFormRequest $request, $id)
     {
-        //
         $this->repo->delete($id);
         return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('刪除成功'));
     }

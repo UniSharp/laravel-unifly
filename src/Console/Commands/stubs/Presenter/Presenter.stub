@@ -36,4 +36,21 @@ class DummyClass
             ['title' => 'Title', 'link' => 'http://link'],
         ]);
     }
+
+    public function initFormData()
+    {
+        $formData = function ($attr) {
+            if (old($attr)) {
+                return old($attr);
+            }
+
+            if (!empty(d('main.entity')->$attr)) {
+                return d('main.entity')->$attr;
+            }
+
+            return null;
+        };
+
+        carrier()->extend('formData', $formData);
+    }
 }
