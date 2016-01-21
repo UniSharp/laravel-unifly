@@ -16,24 +16,23 @@ class DummyClass
     public function setIndexBreadcrumb()
     {
         carrier_set('main.breadcrumbs', [
-            ['title' => 'Title', 'link' => 'http://link'],
-            ['title' => 'Title', 'link' => 'http://link'],
+            ['title' => 'Entity管理', 'link' => '']
         ]);
     }
 
     public function setCreateBreadcrumb()
     {
         carrier_set('main.breadcrumbs', [
-            ['title' => 'Title', 'link' => 'http://link'],
-            ['title' => 'Title', 'link' => 'http://link'],
+            ['title' => 'Entity管理', 'link' => route('backend.index')],
+            ['title' => '新增Entity', 'link' => ''],
         ]);
     }
 
     public function setEditBreadcrumb()
     {
         carrier_set('main.breadcrumbs', [
-            ['title' => 'Title', 'link' => 'http://link'],
-            ['title' => 'Title', 'link' => 'http://link'],
+            ['title' => 'Entity管理', 'link' => route('backend.index')],
+            ['title' => '修改Entity', 'link' => ''],
         ]);
     }
 
