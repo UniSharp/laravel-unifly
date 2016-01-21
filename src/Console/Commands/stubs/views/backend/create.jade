@@ -8,7 +8,7 @@ block content
       h1.page-header {{_('新增Entity')}}
       include ../partial/breadcrumbs
       .container-fluid
-        +form("{{route('backend.DummyEntityLowerCaseFIXME.store')}}")
+        +form("{{route('backend.DummyEntityLowerCase.store')}}")
           +input('name', 'Entity名稱')
           +textarea('description', '敘述')
           +number('quantity', '數量')

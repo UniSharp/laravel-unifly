@@ -8,8 +8,8 @@ block content
       .container-fluid
         .row(style='margin-bottom:10px;')
           .btn-toolbar
-            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') {{_('新增')}}
-            a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCaseFIXME/export') {{_('匯出')}}
+            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.create")}}') {{_('新增')}}
+            a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCase/export') {{_('匯出')}}
             .pull-right
               form.form-inline(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
                 .input-group
@@ -37,8 +37,8 @@ block content
                 td
                 td
                 td
-                  form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCaseFIXME.destroy', $entity->id)}}", method='POST')
-                    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.edit", $entity->id)}}') {{_('修改')}}
+                  form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCase.destroy', $entity->id)}}", method='POST')
+                    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.edit", $entity->id)}}') {{_('修改')}}
                     | {{ csrf_field() }}
                     | {{ method_field('DELETE') }}
                     input.btn.btn-danger(type='submit', value="{{_('刪除')}}")

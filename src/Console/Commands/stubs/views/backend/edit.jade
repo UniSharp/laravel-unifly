@@ -8,7 +8,7 @@ block content
       h1.page-header {{_('修改Entity')}}
       include ../partial/breadcrumbs
       .container-fluid
-        +form("{{route('backend.DummyEntityLowerCaseFIXME.update', d('main.entity')->id)}}", 'PUT')
+        +form("{{route('backend.DummyEntityLowerCase.update', d('main.entity')->id)}}", 'PUT')
           +input('name', 'Entity名稱')
           +textarea('description', '敘述')
           +number('quantity', '數量')
