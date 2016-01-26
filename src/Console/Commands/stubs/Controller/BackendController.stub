@@ -2,6 +2,7 @@
 
 namespace DummyNamespace;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use DummyRootNamespaceHttp\Requests;
@@ -12,6 +13,7 @@ use DummyRootNamespacePresenter\DummyEntityPresenter;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\StoreFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\UpdateFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\DestroyFormRequest;
+use Illuminate\Support\Facades\DB;
 use Unisharp\DataCarrier\DataCarrier;
 
 class DummyClass extends Controller
@@ -66,7 +68,13 @@ class DummyClass extends Controller
      */
     public function store(StoreFormRequest $request)
     {
-        $this->repo->create($request->input());
+        try {
+            DB::transaction(function () use ($request) {
+                $this->repo->create($request->input());
+            });
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
         return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('建立成功'));
     }
 
@@ -94,13 +102,17 @@ class DummyClass extends Controller
      */
     public function edit($id)
     {
-        $entity = $this->repo->get($id);
-        if (!$entity) {
+        try {
+            $entity = $this->repo->get($id);
+            if (!$entity) {
+                abort(404);
+            }
+
+            $this->presenter->setEditBreadCrumb();
+            $this->d->set('main.entity', $entity);
+        } catch (ModelNotFoundException $e) {
             abort(404);
         }
-
-        $this->presenter->setEditBreadCrumb();
-        $this->d->set('main.entity', $entity);
         return view('backend.DummyEntityLowerCase.edit');
     }
 
@@ -113,7 +125,13 @@ class DummyClass extends Controller
      */
     public function update(UpdateFormRequest $request, $id)
     {
-        $this->repo->update($id, $request->input());
+        try {
+            DB::transaction(function () use ($request, $id) {
+                $this->repo->update($id, $request->input());
+            });
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
         return redirect()->route('backend.DummyEntityLowerCase.index')->with('status', _('儲存成功'));
     }
 
