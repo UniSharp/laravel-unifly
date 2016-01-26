@@ -2,24 +2,22 @@ extends ../scaffold/index.jade
 
 include ../partial/mixins.jade
 
-block content
-  .row
-    .col-lg-12
-      h1.page-header {{_('修改Entity')}}
-      include ../partial/breadcrumbs
-      .container-fluid
-        +form("{{route('backend.DummyEntityLowerCaseFIXME.update', d('main.entity')->id)}}", 'PUT')
-          +input('name', 'Entity名稱')
-          +textarea('description', '敘述')
-          +number('quantity', '數量')
-          +file('main_image', '主圖')
-          +datetime('time', '時間')
-          | <?php $types = ['類型一', '類型二'];?>
-          +select('type', '類型', "$types")
-          | <?php $options = ['option 1', 'option 2'];?>
-          +checkbox('options', '多選選項', "$options")
-          | <?php $yn = [1 => '是', 0 => '否'];?>
-          +radio('on', '是否上架', "$yn")
+block main
+  .container-fluid
+    h1.page-header {{_('修改DummyEntity')}}
+    include ../partial/breadcrumbs
+    +form("{{route('backend.DummyEntityLowerCase.update', d('main.entity')->id)}}", 'PUT')
+      +input('name', 'DummyEntity名稱')
+      +textarea('description', '敘述')
+      +number('quantity', '數量')
+      +file('main_image', '主圖')
+      +datetime('time', '時間')
+      | <?php $types = ['類型一', '類型二'];?>
+      +select('type', '類型', "$types")
+      | <?php $options = ['option 1', 'option 2'];?>
+      +checkbox('options', '多選選項', "$options")
+      | <?php $yn = [1 => '是', 0 => '否'];?>
+      +radio('on', '是否上架', "$yn")
 
 block javascript
   +datetimepicker

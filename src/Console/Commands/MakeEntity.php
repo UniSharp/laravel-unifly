@@ -92,6 +92,7 @@ class MakeEntity extends Command
                 ]
             );
         }
+        $this->info('Views generated.');
 
         if ($this->option('translatable')) {
             $table = Str::plural(Str::snake($entity));
@@ -125,6 +126,8 @@ class MakeEntity extends Command
                 ]
             );
         }
+        $this->info('Migration generated.');
+        $this->info('Model generated.');
 
         \Artisan::call(
             'make:us-controller',
@@ -134,6 +137,7 @@ class MakeEntity extends Command
                 '--for' => $for,
             ]
         );
+        $this->info('Controller generated.');
 
         \Artisan::call(
             'make:us-repository',
@@ -143,6 +147,7 @@ class MakeEntity extends Command
                 '--for' => $for,
             ]
         );
+        $this->info('Repository generated.');
 
         \Artisan::call(
             'make:us-presenter',
@@ -152,6 +157,7 @@ class MakeEntity extends Command
                 '--for' => $for,
             ]
         );
+        $this->info('Presenter generated.');
 
         \Artisan::call(
             'make:request',
@@ -173,5 +179,6 @@ class MakeEntity extends Command
                 'name' =>  ucfirst($for) . '\\' . $entity . '\\DestroyFormRequest'
             ]
         );
+        $this->info('FormRequests generated.');
     }
 }

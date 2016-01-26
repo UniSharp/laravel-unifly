@@ -1,50 +1,41 @@
 extends ../scaffold/index.jade
 
-block content
-  .row
-    .col-lg-12
-      h1.page-header {{_('Entity列表')}}
-      include ../partial/breadcrumbs
-      .container-fluid
-        .row(style='margin-bottom:10px;')
-          .btn-toolbar
-            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.create")}}') {{_('新增')}}
-            a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCaseFIXME/export') {{_('匯出')}}
-            .pull-right
-              form.form-inline(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET")
-                .input-group
-                  input.form-control(name='query', type='text')
-                  .input-group-btn
-                    button.btn.btn-default(type='submit', aria-label='Help')
-                      span.glyphicon.glyphicon-search
+block main
+  .container-fluid
+    h1.page-header {{_('DummyEntity管理')}}
+    include ../partial/breadcrumbs
+    .btn-toolbar(style='margin-bottom:10px;')
+      a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.create")}}') {{_('新增')}}
+      a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCase/export') {{_('匯出')}}
+      form.form-inline.pull-right(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET"): .input-group
+        input.form-control(name='query', type='text')
+        .input-group-btn: button.btn.btn-default: span.glyphicon.glyphicon-search
 
+    include ../partial/flash
+    table.table.table-striped.table-middle.table-bordered.table-hover
+      thead
+        tr
+          th {{_('DummyEntity名稱')}}
+          th
+          th
+          th
+          th {{_('操作')}}
+      tbody
+        | @foreach (d('main.collection') as $entity)
+        tr
+          td.del-name {{ $entity->name }}
+          td
+          td
+          td
+          td
+            form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCase.destroy', $entity->id)}}", method='POST')
+              a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.edit", $entity->id)}}') {{_('修改')}}
+              | {{ csrf_field() }}
+              | {{ method_field('DELETE') }}
+              input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
+        | @endforeach
 
-        .row
-          include ../partial/flash
-          table.table.table-striped.table-middle.table-bordered.table-hover
-            thead
-              tr
-                th {{_('Entity名稱')}}
-                th
-                th
-                th
-                th {{_('操作')}}
-            tbody
-              | @foreach (d('main.collection') as $entity)
-              tr
-                td.del-name {{ $entity->name }}
-                td
-                td
-                td
-                td
-                  form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCaseFIXME.destroy', $entity->id)}}", method='POST')
-                    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCaseFIXME.edit", $entity->id)}}') {{_('修改')}}
-                    | {{ csrf_field() }}
-                    | {{ method_field('DELETE') }}
-                    input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
-              | @endforeach
-
-          | {!! d('main.collection')->render() !!}
+    | {!! d('main.collection')->render() !!}
 
 block javascript
   include ../../partial/del-form
