@@ -82,4 +82,17 @@ class DummyClass
             });
         })->export('xls');
     }
+
+    public function sort($seq)
+    {
+        if (empty($seq)) {
+            return;
+        }
+
+        foreach ($seq as $order => $id) {
+            $service = $this->entity->find($id);
+            $service->order = $order;
+            $service->save();
+        }
+    }
 }

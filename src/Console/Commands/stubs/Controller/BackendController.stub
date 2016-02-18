@@ -151,4 +151,11 @@ class DummyClass extends Controller
     {
         $this->repo->export();
     }
+
+    public function sort()
+    {
+        $seq = json_decode(request('sorted'));
+        $this->repo->sort($seq);
+        return redirect()->back()->with('status', '排序成功');
+    }
 }

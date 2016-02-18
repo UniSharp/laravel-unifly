@@ -1,12 +1,19 @@
 extends ../scaffold/index.jade
 
 block main
+  link(href="{{asset('/css/jquery-ui.min.css')}}" rel="stylesheet")
   .container-fluid
     h1.page-header {{_('DummyEntity管理')}}
     include ../partial/breadcrumbs
     .btn-toolbar(style='margin-bottom:10px;')
       a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.create")}}') {{_('新增')}}
       a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCase/export') {{_('匯出')}}
+      form(action="/backend/DummyEntityLowerCase/sort", method='post' style='display:inline')
+        input#sorted(type='hidden' name='sorted')
+        | {{csrf_field()}}
+        button.btn.btn-primary#sort_btn(type='submit' style='margin-left:5px;' disabled)
+          i.fa.fa-floppy-o
+          |  儲存排序
       form.form-inline.pull-right(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET"): .input-group
         input.form-control(name='query', type='text')
         .input-group-btn: button.btn.btn-default: span.glyphicon.glyphicon-search
@@ -20,9 +27,9 @@ block main
           th
           th
           th {{_('操作')}}
-      tbody
+      tbody#sort-list
         | @foreach (d('main.collection') as $entity)
-        tr
+        tr(data-id!="{{$entity->id}}")
           td.del-name {{ $entity->name }}
           td
           td
@@ -39,3 +46,17 @@ block main
 
 block javascript
   include ../../partial/del-form
+  script(src="{{asset('/js/jquery-ui.min.js')}}")
+  script.
+    $('#sort-list').sortable({
+      stop: function(event, ui){
+        $('#sort_btn').removeAttr('disabled');
+        var seq = [];
+        var list = $('#sort-list').children('tr');
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].dataset.id != null) seq.push(list[i].dataset.id);
+        }
+        $('#sorted').val(JSON.stringify(seq));
+      }
+    });
+    $('#sort-list').disableSelection();
