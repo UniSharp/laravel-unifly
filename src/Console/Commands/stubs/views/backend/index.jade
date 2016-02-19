@@ -60,3 +60,6 @@ block javascript
       }
     });
     $('#sort-list').disableSelection();
+    $('#sort_btn').click(function () {
+      $(this).addClass('disabled').html($('<i>').addClass('fa fa-refresh fa-spin')).append(' 儲存中...');
+    });
