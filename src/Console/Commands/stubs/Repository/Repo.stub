@@ -28,7 +28,7 @@ class DummyClass
         return $this->entity->paginate();
     }
 
-    public function create(Array $input, $locale = null)
+    public function create(array $input, $locale = null)
     {
         $attrs = $this->entity->getAttrs('create');
         $trans = $this->entity->pullTransInputs($input, $attrs);
@@ -47,7 +47,7 @@ class DummyClass
         return $entity;
     }
 
-    public function update($id, Array $input, $locale = null)
+    public function update($id, array $input, $locale = null)
     {
         $attrs = $this->entity->getAttrs('update');
         $trans = $this->entity->pullTransInputs($input, $attrs);
