@@ -1,65 +1,84 @@
 extends ../scaffold/index.jade
+include ../partial/mixins.jade
 
 block content
-  link(href="{{asset('/css/jquery-ui.min.css')}}" rel="stylesheet")
   .container-fluid
     h1.page-header {{_('DummyEntity管理')}}
     include ../partial/breadcrumbs
-    .btn-toolbar(style='margin-bottom:10px;')
-      a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.create")}}') {{_('新增')}}
-      a.btn.btn-info.pull-right(href!='/backend/DummyEntityLowerCase/export') {{_('匯出')}}
-      form(action="/backend/DummyEntityLowerCase/sort", method='post' style='display:inline')
-        input#sorted(type='hidden' name='sorted')
-        | {{csrf_field()}}
-        button.btn.btn-primary#sort_btn(type='submit' style='margin-left:5px;' disabled)
-          i.fa.fa-floppy-o
-          |  儲存排序
-      form.form-inline.pull-right(action="{{route('backend.DummyEntityLowerCase.index')}}", method="GET"): .input-group
-        input.form-control(name='query', type='text')
-        .input-group-btn: button.btn.btn-default: span.glyphicon.glyphicon-search
+    
+    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.create")}}')
+      i.fa.fa-plus-circle.fa-fw
+      |  {{_('新增DummyEntity')}}
+    form.form-inline.pull-right: .input-group
+      input.form-control(name='query', type='text')
+      .input-group-btn: button.btn.btn-default: span.glyphicon.glyphicon-search
+    .common_twenty
 
-    include ../partial/flash
-    table.table.table-striped.table-middle.table-bordered.table-hover
+    button#on-shelf.btn.btn-success.btn-sm 
+      i.fa.fa-eye(aria-hidden='true')
+      |  {{_('上架')}}
+    button#off-shelf.btn.btn-warning.btn-sm 
+      i.fa.fa-eye-slash(aria-hidden='true')
+      |  {{_('下架')}}
+    button#remove-shelf.btn.btn-danger.btn-sm 
+      i.fa.fa-trash(aria-hidden='true')
+      |  {{_('刪除')}}
+    form.pull-right(action="/backend/DummyEntityLowerCase/sort", method='post')
+      input#sorted(type='hidden' name='sorted')
+      | {{csrf_field()}}
+      a.btn.btn-info.btn-sm(href!='/backend/DummyEntityLowerCase/export')
+        i.fa.fa-download
+        |  {{_('匯出全部')}}
+      button.btn.btn-primary.btn-sm#sort-btn(disabled)
+        i.fa.fa-floppy-o
+        |  {{_('儲存排序')}}
+    .common_twenty
+
+    include ../partial/flash.jade
+    .table-responsive: table.table.table-striped.table-middle.table-bordered.table-hover
       thead
         tr
+          th: .checkbox: label
+            input#checkAll(type="checkbox")
+            strong 全選
           th {{_('DummyEntity名稱')}}
-          th
-          th
-          th
+          th {{_('圖片')}}
+          th {{_('顯示與否')}}
+          th {{_('上下架狀態')}}
           th {{_('操作')}}
       tbody#sort-list
-        | @foreach (d('main.collection') as $entity)
+        | @forelse (d('main.collection') as $entity)
         tr(data-id!="{{$entity->id}}")
+          td: input(type="checkbox")
           td.del-name {{ $entity->name }}
           td
           td
           td
-          td
-            form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCase.destroy', $entity->id)}}", method='POST')
+          td: form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCase.destroy', $entity->id)}}", method='POST')
               a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.edit", $entity->id)}}') {{_('修改')}}
               | {{ csrf_field() }}
               | {{ method_field('DELETE') }}
               input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
-        | @endforeach
+        | @empty
+        tr
+          td: input.check(type="checkbox")
+          td 測試用的靜態資料
+          td: img.img-responsive(src="/img/favicon_unisharp_logo.png")
+          td: input(type="checkbox" name="on")
+          td 上架
+          td: .btn-toolbar
+              a(href="#").btn.btn-primary 修改
+              a(href="#").btn.btn-danger 刪除
+        | @endforelse
 
     | {!! d('main.collection')->render() !!}
 
 block javascript
   include ../../partial/del-form
-  script(src="{{asset('/js/jquery-ui.min.js')}}")
+  +sortable()
+  script(src="/js/bootstrap-switch.min.js")
   script.
-    $('#sort-list').sortable({
-      stop: function(event, ui){
-        $('#sort_btn').removeAttr('disabled');
-        var seq = [];
-        var list = $('#sort-list').children('tr');
-        for (var i = 0; i < list.length; i++) {
-          if (list[i].dataset.id != null) seq.push(list[i].dataset.id);
-        }
-        $('#sorted').val(JSON.stringify(seq));
-      }
-    });
-    $('#sort-list').disableSelection();
-    $('#sort_btn').click(function () {
-      $(this).addClass('disabled').html($('<i>').addClass('fa fa-refresh fa-spin')).append(' 儲存中...');
+    $("input[name=on]").bootstrapSwitch();
+    $("#checkAll").click(function () {
+      $(".check").prop('checked', $(this).prop('checked'));
     });

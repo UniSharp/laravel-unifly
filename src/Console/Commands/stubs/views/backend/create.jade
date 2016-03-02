@@ -13,11 +13,14 @@ block content
       +file('main_image', '主圖')
       +datetime('time', '時間')
       | <?php $types = ['類型一', '類型二'];?>
-      +select('type', '類型', "$types")
+      | <?php $selected = 1;?>
+      +select('type', '類型', "$types", "$selected")
       | <?php $options = ['option 1', 'option 2'];?>
-      +checkbox('options', '多選選項', "$options")
+      | <?php $checked = [0, 1];?>
+      +checkbox('options', '多選選項', "$options", "$checked")
       | <?php $yn = [1 => '是', 0 => '否'];?>
-      +radio('on', '是否上架', "$yn")
+      | <?php $on = 1;?>
+      +radio('on', '是否上架', "$yn", "$on")
 
 block javascript
   +datetimepicker
