@@ -4,10 +4,22 @@ namespace Unisharp\Unifly\Presenter;
 
 class ApiPresenter
 {
-    public function json($data, $message = '', $code = 200)
+    /**
+     * code: HTTP response code
+     * status_code: Status code in the json content.
+     */
+    public function json($data, $message = '', $code = 200, $status_code = false)
     {
+        if ($status_code === null) {
+            $status_code = (int)($code . '00');
+        }
+        if ($status_code === false) {
+            // For backward compatibiltiy, if no $status_code,
+            // use the origin 3 digits HTTP return code.
+            $status_code = $code;
+        }
         $status = [
-            'code' => $code,
+            'code' => $status_code,
             'message' => $message,
         ];
         $response['status'] = $status;
