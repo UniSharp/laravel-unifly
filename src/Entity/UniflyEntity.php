@@ -8,10 +8,10 @@ abstract class UniflyEntity extends Model
 {
     protected $translatedAttributes = [];
 
-    // TODO Write your autocreate attribute here
+    // Write your auto-create attribute here
     protected $should_be_created_attr = [];
 
-    // TODO Write your autoupdate attribute here
+    // Write your auto-update attribute here
     protected $should_be_updated_attr = [];
 
     public function getAttrs($mode)
@@ -63,5 +63,16 @@ abstract class UniflyEntity extends Model
         }
 
         return $input;
+    }
+
+    public function setUpTransInputs($trans, $locale = null)
+    {
+        if (method_exists($this, 'translatOrNew')) {
+            $locale = $locale ?: config('app.fallback_locale');
+            
+            foreach ($trans as $k => $v) {
+                $this->translateOrNew($locale)->$k = $v;
+            }
+        }
     }
 }

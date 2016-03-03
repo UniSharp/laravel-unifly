@@ -1,17 +1,10 @@
 <?php
 
-namespace DummyNamespace;
+namespace Unisharp\Unifly\Repository;
 
-use App\Entity\DummyEntity;
-
-class DummyClass
+class UniflyRepo
 {
     public $entity;
-
-    public function __construct(DummyEntity $entity)
-    {
-        $this->entity = $entity;
-    }
 
     public function search($query)
     {

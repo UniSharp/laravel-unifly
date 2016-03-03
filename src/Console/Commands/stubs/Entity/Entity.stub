@@ -2,20 +2,32 @@
 
 namespace DummyNamespace;
 
+use App\Traits\Imageable;
+use App\Traits\MultiImageable;
 use Unisharp\Unifly\Entity\UniflyEntity;
 
 class DummyClass extends UniflyEntity
 {
+    //========Single image========
+    use Imageable;
+    public $image_path = 'images/DummyEntityLowerCase';
+    //========End========
+
+    //========Multi image========
+    use MultiImageable;
+    public $multi_image_path = 'images/DummyEntityLowerCase';
+    //========End========
+
     protected $guarded = [];
 
     protected $translatedAttributes = [];
 
-    // TODO Write your autocreate attribute here
+    // Write your auto-create attributes here
     protected $should_be_created_attr = [
         'name'
     ];
 
-    // TODO Write your autoupdate attribute here
+    // Write your auto-update attributes here
     protected $should_be_updated_attr = [
         'name'
     ];

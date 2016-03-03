@@ -4,6 +4,8 @@ namespace DummyNamespace;
 
 use App\Entity\DummyEntity;
 
+use Unisharp\FileApi\FileApi;
+
 class DummyClass
 {
     public $entity;
@@ -34,6 +36,15 @@ class DummyClass
             ['title' => 'DummyEntity管理', 'link' => route('backend.DummyEntityLowerCase.index')],
             ['title' => '修改DummyEntity', 'link' => ''],
         ]);
+    }
+
+    public function initImagePath()
+    {
+        $image_path = $this->entity->image_path;
+        carrier()->extend('image_path', function ($filename) use ($image_path) {
+            $fa = new FileApi($image_path);
+            return $fa->get($filename);
+        });
     }
 
     public function initFormData()
