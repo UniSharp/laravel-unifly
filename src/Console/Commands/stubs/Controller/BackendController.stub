@@ -5,16 +5,13 @@ namespace DummyNamespace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
-use DummyRootNamespaceHttp\Controllers\Controller;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\StoreFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\UpdateFormRequest;
 use DummyRootNamespaceHttp\Requests\DummyForDummyEntity\DestroyFormRequest;
 use DummyRootNamespacePresenter\DummyEntityPresenter;
 use DummyRootNamespaceRepository\DummyEntityRepo;
 
-use Unisharp\DataCarrier\DataCarrier;
-
-class DummyClass extends Controller
+class DummyClass extends BackendController
 {
     protected $view_prefix = 'backend.DummyEntityLowerCase';
     protected $repo;
@@ -46,7 +43,7 @@ class DummyClass extends Controller
         }
 
         $this->presenter->setIndexBreadCrumb();
-        return view($this->view_prefix . '.index');
+        return view($this->view_prefix . '.' . __FUNCTION__);
     }
 
     /**
@@ -57,7 +54,7 @@ class DummyClass extends Controller
     public function create()
     {
         $this->presenter->setCreateBreadCrumb();
-        return view($this->view_prefix . '.create');
+        return view($this->view_prefix . '.' . __FUNCTION__);
     }
 
     /**
@@ -69,8 +66,10 @@ class DummyClass extends Controller
     public function store(StoreFormRequest $request)
     {
         try {
-            DB::transaction(function () use ($request) {
-                $this->repo->create($request->input());
+            DB::transaction(function () {
+                $entity = $this->repo->create(request()->input());
+                $this->repo->bindImage($entity->id, request()->file('main_image'));
+                $this->repo->addImages($entity->id, request()->file('images'));
             });
         } catch (ModelNotFoundException $e) {
             abort(404);
@@ -94,7 +93,7 @@ class DummyClass extends Controller
             abort(404);
         }
         
-        return view($this->view_prefix . '.show');
+        return view($this->view_prefix . '.' . __FUNCTION__);
     }
 
     /**
@@ -114,7 +113,7 @@ class DummyClass extends Controller
             abort(404);
         }
 
-        return view($this->view_prefix . '.edit');
+        return view($this->view_prefix . '.' . __FUNCTION__);
     }
 
     /**
@@ -127,8 +126,10 @@ class DummyClass extends Controller
     public function update(UpdateFormRequest $request, $id)
     {
         try {
-            DB::transaction(function () use ($request, $id) {
-                $this->repo->update($id, $request->input());
+            DB::transaction(function () use ($id) {
+                $entity = $this->repo->update($id, request()->input());
+                $this->repo->bindImage($entity->id, request()->file('main_image'));
+                $this->repo->addImages($entity->id, request()->file('images'));
             });
         } catch (ModelNotFoundException $e) {
             abort(404);

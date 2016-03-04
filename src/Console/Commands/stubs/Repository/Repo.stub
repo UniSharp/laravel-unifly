@@ -2,9 +2,11 @@
 
 namespace DummyNamespace;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 use App\Entity\DummyEntity;
 
-class DummyClass
+class DummyClass extends BaseRepo
 {
     public $entity;
 
@@ -28,39 +30,33 @@ class DummyClass
         return $this->entity->paginate();
     }
 
-    public function create(array $input, $locale = null)
-    {
-        $attrs = $this->entity->getAttrs('create');
-        $trans = $this->entity->pullTransInputs($input, $attrs);
-        $input = $this->entity->checkInputExist($input, $attrs);
-
-        $entity = $this->entity->create($input);
-        
-        $entity->setUpTransInputs($trans, $locale);
-        $entity->save();
-        return $entity;
-    }
-
-    public function update($id, array $input, $locale = null)
-    {
-        $attrs = $this->entity->getAttrs('update');
-        $trans = $this->entity->pullTransInputs($input, $attrs);
-        $input = $this->entity->checkInputExist($input, $attrs);
-
-        $entity = $this->entity->findOrFail($id);
-
-        foreach ($input as $k => $v) {
-            $entity->$k = $v;
-        }
-
-        $entity->setUpTransInputs($trans, $locale);
-        $entity->save();
-        return $entity;
-    }
-
     public function delete($id)
     {
         $this->entity->destroy($id);
+    }
+
+    public function bindImage($id, $image)
+    {
+        if (!empty($image) && $image instanceof UploadedFile) {
+            $entity = $this->entity->findOrFail($id);
+            $entity->bindImageTo('main_image', $image);
+        }
+    }
+
+    public function addImages($id, $images)
+    {
+        $images = array_filter($images, function ($e) {
+            return $e instanceof UploadedFile;
+        });
+
+        if (empty($images)) {
+            return;
+        }
+
+        $entity = $this->entity->find($id);
+        foreach ($images as $image) {
+            $entity->addImage($image);
+        }
     }
 
     public function export()
@@ -69,18 +65,5 @@ class DummyClass
             $excel->sheet('Sheet Name', function ($sheet) {
             });
         })->export('xls');
-    }
-
-    public function sort($seq)
-    {
-        if (empty($seq)) {
-            return;
-        }
-
-        foreach ($seq as $order => $id) {
-            $service = $this->entity->find($id);
-            $service->order = $order;
-            $service->save();
-        }
     }
 }

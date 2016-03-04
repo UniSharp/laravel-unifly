@@ -2,14 +2,10 @@
 
 namespace Unisharp\Unifly\Presenter;
 
-use Unisharp\Unifly\Entity;
-
 use Unisharp\FileApi\FileApi;
 
-class UniflyPresenter
+abstract class UniflyPresenter
 {
-    public $entity;
-
     public function initImagePath()
     {
         $image_path = $this->entity->image_path;

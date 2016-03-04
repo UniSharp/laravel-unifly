@@ -6,7 +6,7 @@ use App\Entity\DummyEntity;
 
 use Unisharp\FileApi\FileApi;
 
-class DummyClass
+class DummyClass extends BasePresenter
 {
     public $entity;
 

@@ -4,9 +4,8 @@ namespace DummyNamespace;
 
 use App\Traits\Imageable;
 use App\Traits\MultiImageable;
-use Unisharp\Unifly\Entity\UniflyEntity;
 
-class DummyClass extends UniflyEntity
+class DummyClass extends BaseEntity
 {
     //========Single image========
     use Imageable;

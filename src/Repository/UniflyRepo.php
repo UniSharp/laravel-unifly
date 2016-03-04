@@ -2,25 +2,8 @@
 
 namespace Unisharp\Unifly\Repository;
 
-class UniflyRepo
+abstract class UniflyRepo
 {
-    public $entity;
-
-    public function search($query)
-    {
-        return $this->entity->paginate();
-    }
-
-    public function get($id)
-    {
-        return $this->entity->findOrFail($id);
-    }
-
-    public function getAll()
-    {
-        return $this->entity->paginate();
-    }
-
     public function create(array $input, $locale = null)
     {
         $attrs = $this->entity->getAttrs('create');
@@ -49,19 +32,6 @@ class UniflyRepo
         $entity->setUpTransInputs($trans, $locale);
         $entity->save();
         return $entity;
-    }
-
-    public function delete($id)
-    {
-        $this->entity->destroy($id);
-    }
-
-    public function export()
-    {
-        \Excel::create('File Name', function ($excel) {
-            $excel->sheet('Sheet Name', function ($sheet) {
-            });
-        })->export('xls');
     }
 
     public function sort($seq)
