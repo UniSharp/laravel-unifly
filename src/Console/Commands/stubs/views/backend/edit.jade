@@ -1,8 +1,7 @@
-extends ../scaffold/index.jade
+extends ../scaffold/index
+include ../partial/mixins
 
-include ../partial/mixins.jade
-
-block content
+block main
   .container-fluid
     h1.page-header {{_('修改DummyEntity')}}
     include ../partial/breadcrumbs

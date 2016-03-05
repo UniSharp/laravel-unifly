@@ -25,7 +25,9 @@ class DummyClass extends BackendController
         $this->presenter->initImagePath();
         $this->presenter->initFormData();
         $this->d = \App::make('DataCarrier');
-        $this->d->set('head.site_title', 'title');
+        $this->d->set('head.site_title', '後台管理系統');
+
+        parent::__construct($repo, $presenter);
     }
 
     /**

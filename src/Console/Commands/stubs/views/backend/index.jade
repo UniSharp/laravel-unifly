@@ -1,7 +1,7 @@
-extends ../scaffold/index.jade
-include ../partial/mixins.jade
+extends ../scaffold/index
+include ../partial/mixins
 
-block content
+block main
   .container-fluid
     h1.page-header {{_('DummyEntity管理')}}
     include ../partial/breadcrumbs
@@ -34,13 +34,13 @@ block content
         |  {{_('儲存排序')}}
     .common_twenty
 
-    include ../partial/flash.jade
+    include ../partial/flash
     .table-responsive: table.table.table-striped.table-middle.table-bordered.table-hover
       thead
         tr
           th: .checkbox: label
             input#checkAll(type="checkbox")
-            strong 全選
+            strong {{_('全選')}}
           th {{_('DummyEntity名稱')}}
           th {{_('圖片')}}
           th {{_('顯示與否')}}
@@ -51,24 +51,16 @@ block content
         tr(data-id!="{{$entity->id}}")
           td: input(type="checkbox")
           td.del-name {{ $entity->name }}
-          td
-          td
-          td
+          td: img.img-responsive(src="/img/favicon_unisharp_logo.png")
+          td: input(type="checkbox" name="on")
+          td {{_('上架/下架')}}
           td: form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCase.destroy', $entity->id)}}", method='POST')
               a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.edit", $entity->id)}}') {{_('修改')}}
               | {{ csrf_field() }}
               | {{ method_field('DELETE') }}
               input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
         | @empty
-        tr
-          td: input.check(type="checkbox")
-          td 測試用的靜態資料
-          td: img.img-responsive(src="/img/favicon_unisharp_logo.png")
-          td: input(type="checkbox" name="on")
-          td 上架
-          td: .btn-toolbar
-              a(href="#").btn.btn-primary 修改
-              a(href="#").btn.btn-danger 刪除
+        .alert.alert-warning {{_('尚無資料')}}
         | @endforelse
 
     | {!! d('main.collection')->render() !!}
