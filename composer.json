@@ -12,7 +12,9 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "illuminate/support": ">=5.0.0"
+    "illuminate/support": ">=5.0.0",
+    "unisharp/laravel-datacarrier": "dev-master",
+    "unisharp/laravel-fileapi": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.8"
