@@ -10,6 +10,7 @@ block main
       +textarea('description', '敘述')
       +number('quantity', '數量')
       +file('main_image', '主圖')
+      .row: .col-md-10.col-md-offset-2: img.img-responsive(src!="{{carrier()->image_path(d('main.entity')->main_image)}}" style='max-height:150px;margin-bottom:10px')
       +datetime('time', '時間')
       | <?php $types = ['類型一', '類型二'];?>
       +select('type', '類型', "$types")

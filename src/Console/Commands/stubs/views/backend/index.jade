@@ -38,7 +38,7 @@ block main
     .table-responsive: table.table.table-striped.table-middle.table-bordered.table-hover
       thead
         tr
-          th: .checkbox: label
+          th: .checkbox(style='margin:0;'): label
             input#checkAll(type="checkbox")
             strong {{_('全選')}}
           th {{_('DummyEntity名稱')}}
@@ -51,14 +51,14 @@ block main
         tr(data-id!="{{$entity->id}}")
           td: input(type="checkbox")
           td.del-name {{ $entity->name }}
-          td: img.img-responsive(src="/img/favicon_unisharp_logo.png")
-          td: input(type="checkbox" name="on")
-          td {{_('上架/下架')}}
+          td: img.img-responsive(src!="{{carrier()->image_path($entity->main_image)}}")
+          td: input(type="checkbox" name="enabled" "{{($entity->enabled) ? 'checked' : ''}}")
+          td {{($entity->enabled) ? _('上架') : _('下架')}}
           td: form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCase.destroy', $entity->id)}}", method='POST')
-              a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.edit", $entity->id)}}') {{_('修改')}}
-              | {{ csrf_field() }}
-              | {{ method_field('DELETE') }}
-              input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
+            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.edit", $entity->id)}}') {{_('修改')}}
+            input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
+            | {{ csrf_field() }}
+            | {{ method_field('DELETE') }}
         | @empty
         .alert.alert-warning {{_('尚無資料')}}
         | @endforelse
@@ -70,7 +70,7 @@ block javascript
   +sortable()
   script(src="/js/bootstrap-switch.min.js")
   script.
-    $("input[name=on]").bootstrapSwitch();
+    $("input[name=enabled]").bootstrapSwitch();
     $("#checkAll").click(function () {
       $(".check").prop('checked', $(this).prop('checked'));
     });

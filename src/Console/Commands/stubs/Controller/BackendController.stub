@@ -71,7 +71,7 @@ class DummyClass extends BackendController
             DB::transaction(function () {
                 $entity = $this->repo->create(request()->input());
                 $this->repo->bindImage($entity->id, request()->file('main_image'));
-                $this->repo->addImages($entity->id, request()->file('images'));
+                // $this->repo->addImages($entity->id, request()->file('images'));
             });
         } catch (ModelNotFoundException $e) {
             abort(404);
@@ -131,7 +131,7 @@ class DummyClass extends BackendController
             DB::transaction(function () use ($id) {
                 $entity = $this->repo->update($id, request()->input());
                 $this->repo->bindImage($entity->id, request()->file('main_image'));
-                $this->repo->addImages($entity->id, request()->file('images'));
+                // $this->repo->addImages($entity->id, request()->file('images'));
             });
         } catch (ModelNotFoundException $e) {
             abort(404);

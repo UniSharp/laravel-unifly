@@ -99,14 +99,16 @@ class MakeEntity extends Command
             \Artisan::call(
                 'make:us-model',
                 [
-                    'name' => 'Entity\\' . $entity
+                    'name' => 'Entity\\' . $entity,
+                    'entity_name' => $entity
                 ]
             );
 
             \Artisan::call(
                 'make:us-model',
                 [
-                    'name' => 'Entity\\' . $entity . 'Translation'
+                    'name' => 'Entity\\' . $entity . 'Translation',
+                    'entity_name' => $entity
                 ]
             );
 
@@ -122,6 +124,7 @@ class MakeEntity extends Command
                 'make:us-model',
                 [
                     'name' => 'Entity\\' . $entity,
+                    'entity_name' => $entity,
                     '--migration' => 'default'
                 ]
             );
