@@ -22,7 +22,7 @@ abstract class UniflyPresenter
                 return old($attr);
             }
 
-            if (!empty(d('main.entity')->$attr)) {
+            if (!is_null(d('main.entity')) && !is_null(d('main.entity')->$attr)) {
                 return d('main.entity')->$attr;
             }
 
