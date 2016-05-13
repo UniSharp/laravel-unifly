@@ -18,7 +18,7 @@ abstract class UniflyPresenter
     public function initFormData()
     {
         $formData = function ($attr) {
-            if (old($attr)) {
+            if (!is_null(old($attr))) {
                 return old($attr);
             }
 
