@@ -2,7 +2,7 @@
 namespace Unisharp\Unifly\Console\Commands;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
-use Illuminate\Foundation\Composer;
+use Illuminate\Support\Composer;
 
 class TranslatableMigrationMakeCommand extends MigrateMakeCommand
 {
