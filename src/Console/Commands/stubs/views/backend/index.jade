@@ -2,6 +2,18 @@ extends ../scaffold/index
 include ../partial/mixins
 
 block main
+  style.
+    .hiddenRow > td {
+      padding: 0 !important;
+      background-color: white;
+    }
+
+    .info-column {
+      text-align: center;
+      min-height: 50px;
+      padding: 20px 0 20px 0;
+    }
+
   .container-fluid
     h1.page-header {{_('DummyEntity管理')}}
     include ../partial/breadcrumbs
@@ -12,17 +24,18 @@ block main
     form.form-inline.pull-right: .input-group
       input.form-control(name='query', type='text')
       .input-group-btn: button.btn.btn-default: span.glyphicon.glyphicon-search
+    .btn-group
+      button.btn.btn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded="false")
+        | 批次操作&nbsp;
+        span.caret
+      ul.dropdown-menu
+        li: a#on-shelf {{_('上架')}}
+          i.fa.fa-eye.pull-right(aria-hidden='true')
+        li: a#off-shelf {{_('下架')}}
+          i.fa.fa-eye-slash.pull-right(aria-hidden='true')
+        li: a#remove-shelf {{_('刪除')}}
+          i.fa.fa-trash.pull-right(aria-hidden='true')
     .common_twenty
-
-    button#on-shelf.btn.btn-success.btn-sm 
-      i.fa.fa-eye(aria-hidden='true')
-      |  {{_('上架')}}
-    button#off-shelf.btn.btn-warning.btn-sm 
-      i.fa.fa-eye-slash(aria-hidden='true')
-      |  {{_('下架')}}
-    button#remove-shelf.btn.btn-danger.btn-sm 
-      i.fa.fa-trash(aria-hidden='true')
-      |  {{_('刪除')}}
     form.pull-right(action="/backend/DummyEntityLowerCase/sort", method='post')
       input#sorted(type='hidden' name='sorted')
       | {{csrf_field()}}
@@ -41,15 +54,19 @@ block main
           th: .checkbox(style='margin:0;'): label
             input#checkAll(type="checkbox")
             strong {{_('全選')}}
+          th {{_('展開')}}
           th {{_('DummyEntity名稱')}}
           th {{_('圖片')}}
           th {{_('顯示與否')}}
-          th {{_('上下架狀態')}}
+          th
+            | {{_('上下架狀態')}}
+            i.fa.fa-question-circle(data-toggle="tooltip" title="這裡可以加一些說明")
           th {{_('操作')}}
       tbody#sort-list
         | @forelse (d('main.collection') as $entity)
         tr(data-id!="{{$entity->id}}")
-          td: input(type="checkbox")
+          td: input.check(type="checkbox")
+          td: a.btn.btn-warning.btn-outline.btn-circle(data-toggle="collapse" data-target!="#infoRow{{$entity->id}}" class="info-toggle"): i.fa.fa-chevron-down
           td.del-name {{ $entity->name }}
           td: img.img-responsive(src!="{{carrier()->image_path($entity->main_image)}}")
           td: input(type="checkbox" name="enabled" "{{($entity->enabled) ? 'checked' : ''}}")
@@ -59,6 +76,17 @@ block main
             input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
             | {{ csrf_field() }}
             | {{ method_field('DELETE') }}
+        tr.hiddenRow
+          td
+            .row.info-body.collapse(id!="infoRow{{$entity->id}}")
+              .col-md-8.col-xs-8.info-column
+                label {{_('這裡可以放一些次要資訊')}}
+                p {{_('這裡可以放一些次要資訊')}}
+              .col-md-4.col-xs-4.info-column: p: .btn-toolbar
+                a.btn.btn-default(href!="#")
+                  i.fa.fa-cog
+                  |  {{_('Button')}}
+        tr.hide
         | @empty
         .alert.alert-warning {{_('尚無資料')}}
         | @endforelse
@@ -74,3 +102,20 @@ block javascript
     $("#checkAll").click(function () {
       $(".check").prop('checked', $(this).prop('checked'));
     });
+  script.
+    $('[data-toggle=tooltip]').tooltip();
+
+    $('.hiddenRow > td').prop('colspan', $('tbody').find('tr').first().find('td').length);
+
+    $('.info-body').on('show.bs.collapse', function () {
+      toggleDropdown($(this));
+    });
+    $('.info-body').on('hide.bs.collapse', function () {
+      toggleDropdown($(this));
+    });
+
+    function toggleDropdown(element) {
+      element.closest('tr').prev().find('.info-toggle').toggleClass('btn-outline');
+      element.closest('tr').prev().find('.info-toggle').find('i').toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
+    }
+
