@@ -26,9 +26,9 @@ class ViewMakeCommand extends UsGeneratorCommand
     {
         $this->view_name = $this->argument('name');
         $lower_entityname = strtolower($this->entityname);
-        $p = "fe-src/jade/{$this->for}/{$lower_entityname}";
+        $p = "fe-src/pug/{$this->for}/{$lower_entityname}";
         $dir = base_path("{$p}");
-        $dest = base_path("{$p}/{$this->view_name}.jade");
+        $dest = base_path("{$p}/{$this->view_name}.pug");
 
 
         if (!file_exists($dir)) {
@@ -51,6 +51,6 @@ class ViewMakeCommand extends UsGeneratorCommand
     public function getStub()
     {
         $lower_entityname = strtolower($this->entityname);
-        return __DIR__ . "/stubs/views/{$this->for}/{$this->view_name}.jade";
+        return __DIR__ . "/stubs/views/{$this->for}/{$this->view_name}.pug";
     }
 }

@@ -1,0 +1,76 @@
+extends ../scaffold/index
+include ../partial/mixins
+
+block main
+  .container-fluid
+    h1.page-header {{_('DummyEntity管理')}}
+    include ../partial/breadcrumbs
+    
+    a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.create")}}')
+      i.fa.fa-plus-circle.fa-fw
+      |  {{_('新增DummyEntity')}}
+    form.form-inline.pull-right: .input-group
+      input.form-control(name='query', type='text')
+      .input-group-btn: button.btn.btn-default: span.glyphicon.glyphicon-search
+    .common_twenty
+
+    button#on-shelf.btn.btn-success.btn-sm 
+      i.fa.fa-eye(aria-hidden='true')
+      |  {{_('上架')}}
+    button#off-shelf.btn.btn-warning.btn-sm 
+      i.fa.fa-eye-slash(aria-hidden='true')
+      |  {{_('下架')}}
+    button#remove-shelf.btn.btn-danger.btn-sm 
+      i.fa.fa-trash(aria-hidden='true')
+      |  {{_('刪除')}}
+    form.pull-right(action="/backend/DummyEntityLowerCase/sort", method='post')
+      input#sorted(type='hidden' name='sorted')
+      | {{csrf_field()}}
+      a.btn.btn-info.btn-sm(href!='/backend/DummyEntityLowerCase/export')
+        i.fa.fa-download
+        |  {{_('匯出全部')}}
+      button.btn.btn-primary.btn-sm#sort-btn(disabled)
+        i.fa.fa-floppy-o
+        |  {{_('儲存排序')}}
+    .common_twenty
+
+    include ../partial/flash
+    .table-responsive: table.table.table-striped.table-middle.table-bordered.table-hover
+      thead
+        tr
+          th: .checkbox(style='margin:0;'): label
+            input#checkAll(type="checkbox")
+            strong {{_('全選')}}
+          th {{_('DummyEntity名稱')}}
+          th {{_('圖片')}}
+          th {{_('顯示與否')}}
+          th {{_('上下架狀態')}}
+          th {{_('操作')}}
+      tbody#sort-list
+        | @forelse (d('main.collection') as $entity)
+        tr(data-id!="{{$entity->id}}")
+          td: input(type="checkbox")
+          td.del-name {{ $entity->name }}
+          td: img.img-responsive(src!="{{carrier()->image_path($entity->main_image)}}")
+          td: input(type="checkbox" name="enabled" "{{($entity->enabled) ? 'checked' : ''}}")
+          td {{($entity->enabled) ? _('上架') : _('下架')}}
+          td: form.form-inline.del-form(action!="{{route('backend.DummyEntityLowerCase.destroy', $entity->id)}}", method='POST')
+            a.btn.btn-primary(href!='{{route("backend.DummyEntityLowerCase.edit", $entity->id)}}') {{_('修改')}}
+            input.btn.btn-danger(type='submit', value="{{_('刪除')}}")
+            | {{ csrf_field() }}
+            | {{ method_field('DELETE') }}
+        | @empty
+        .alert.alert-warning {{_('尚無資料')}}
+        | @endforelse
+
+    | {!! d('main.collection')->render() !!}
+
+block javascript
+  include ../../partial/del-form
+  +sortable()
+  script(src="/js/bootstrap-switch.min.js")
+  script.
+    $("input[name=enabled]").bootstrapSwitch();
+    $("#checkAll").click(function () {
+      $(".check").prop('checked', $(this).prop('checked'));
+    });
