@@ -46,6 +46,10 @@ class UniflyServiceProvider extends ServiceProvider
             return new \Unisharp\Unifly\Console\Commands\ModelMakeCommand($app['files']);
         });
 
+        $this->app->singleton('unisharp::make:us-test', function ($app) {
+            return new \Unisharp\Unifly\Console\Commands\TestMakeCommand($app['files']);
+        });
+
         $this->app->singleton('unisharp::make:entity', function ($app) {
             return new \Unisharp\Unifly\Console\Commands\MakeEntity($app['files']);
         });
@@ -57,6 +61,7 @@ class UniflyServiceProvider extends ServiceProvider
             'unisharp::make:us-view',
             'unisharp::make:us-model',
             'unisharp::make:us-trans-migration',
+            'unisharp::make:us-test',
             'unisharp::make:entity',
         ]);
     }

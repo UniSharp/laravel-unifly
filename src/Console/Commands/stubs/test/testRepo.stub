@@ -1,0 +1,100 @@
+<?php
+namespace Test\Php\Repository;
+
+use App\Entity\DummyEntity;
+use App\Repository\DummyEntityRepo;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use \Test\Php\TestCase;
+
+class TestDummyEntityRepo extends TestCase
+{
+    use DatabaseTransactions;
+
+    protected $entity;
+    protected $repo;
+
+    public function __construct()
+    {
+        $this->entity = new DummyEntity;
+        $this->repo = new DummyEntityRepo($this->entity);
+    }
+
+    /**
+     * @before
+     */
+
+    public function testSearch()
+    {
+        //測試搜尋功能
+    }
+
+    public function testGet()
+    {
+        //測試取單一比資料
+        $expectEntity = $this->entity->create([
+            'name' => 'test'
+        ]);
+        $expect = [
+            'id' => $expectEntity->id
+        ];
+
+        $actualEntity = $this->repo->get($expectEntity->id);
+        $actual = [
+            'id' => $actualEntity->id
+        ];
+        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
+    }
+
+    public function testGetAll()
+    {
+        //測試取全部資料
+        $expect = [];
+        for ($i = 0; $i < 10; $i++) {
+            $entity = $this->entity->create([
+                'name' => 'test'.$i
+            ]);
+            array_push($expect, $entity->id);
+        }
+        $actual = $this->repo->getAll()->pluck('id');
+        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
+    }
+
+    public function testCreate()
+    {
+        //測試新增一筆資料
+        $expect = [
+            'name' => 'test'
+        ];
+        $actualEntity = $this->repo->create($expect);
+        $actual = [
+            'name' => $actualEntity->name
+        ];
+        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
+    }
+
+    public function testUpdate()
+    {
+        //測試更新一筆資料
+        $expectEntity = $this->entity->create([
+            'name' => 'test'
+        ]);
+        $expect = [
+            'name' => 'hello world'
+        ];
+        $actualEntity = $this->repo->update($expectEntity->id, $expect);
+        $actual = [
+            'name' => $actualEntity->name
+        ];
+        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
+    }
+
+    public function testDelete()
+    {
+        //測試刪除一筆資料
+        $entity = $this->entity->create([
+            'name' => 'test'
+        ]);
+        $actualEntity = $this->repo->delete($entity->id);
+        $this->assertEmpty($actualEntity);
+    }
+}

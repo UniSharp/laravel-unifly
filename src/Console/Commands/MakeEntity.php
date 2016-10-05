@@ -183,5 +183,15 @@ class MakeEntity extends Command
             ]
         );
         $this->info('FormRequests generated.');
+
+        \Artisan::call(
+            'make:us-test',
+            [
+                'name' => 'Test' . $entity . 'Repo',
+                'entity_name' => $entity,
+                '--for' => $for,
+            ]
+        );
+        $this->info('Test generated.');
     }
 }

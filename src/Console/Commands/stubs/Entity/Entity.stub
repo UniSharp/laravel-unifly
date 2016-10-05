@@ -23,11 +23,11 @@ class DummyClass extends BaseEntity
 
     // Write your auto-create attributes here
     protected $should_be_created_attr = [
-        'name', 'description', 'quantity', 'time', 'type', 'enabled'
+        'name'
     ];
 
     // Write your auto-update attributes here
     protected $should_be_updated_attr = [
-        'name', 'description', 'quantity', 'time', 'type', 'enabled'
+        'name'
     ];
 }
