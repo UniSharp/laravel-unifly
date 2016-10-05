@@ -32,7 +32,7 @@ class TestDummyEntityRepo extends TestCase
     {
         //測試取單一比資料
         $expectEntity = $this->entity->create([
-            'name' => 'test'
+            'name' => 'test get'
         ]);
         $expect = [
             'id' => $expectEntity->id
@@ -48,22 +48,13 @@ class TestDummyEntityRepo extends TestCase
     public function testGetAll()
     {
         //測試取全部資料
-        $expect = [];
-        for ($i = 0; $i < 10; $i++) {
-            $entity = $this->entity->create([
-                'name' => 'test'.$i
-            ]);
-            array_push($expect, $entity->id);
-        }
-        $actual = $this->repo->getAll()->pluck('id');
-        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
     }
 
     public function testCreate()
     {
         //測試新增一筆資料
         $expect = [
-            'name' => 'test'
+            'name' => 'test create'
         ];
         $actualEntity = $this->repo->create($expect);
         $actual = [
@@ -76,7 +67,7 @@ class TestDummyEntityRepo extends TestCase
     {
         //測試更新一筆資料
         $expectEntity = $this->entity->create([
-            'name' => 'test'
+            'name' => 'test update'
         ]);
         $expect = [
             'name' => 'hello world'
@@ -92,7 +83,7 @@ class TestDummyEntityRepo extends TestCase
     {
         //測試刪除一筆資料
         $entity = $this->entity->create([
-            'name' => 'test'
+            'name' => 'test delete'
         ]);
         $actualEntity = $this->repo->delete($entity->id);
         $this->assertEmpty($actualEntity);
