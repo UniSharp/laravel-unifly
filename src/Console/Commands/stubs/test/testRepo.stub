@@ -82,10 +82,11 @@ class TestDummyEntityRepo extends TestCase
     public function testDelete()
     {
         //測試刪除一筆資料
-        $entity = $this->entity->create([
+        $id = $this->entity->create([
             'name' => 'test delete'
         ]);
-        $actualEntity = $this->repo->delete($entity->id);
-        $this->assertEmpty($actualEntity);
+        $this->repo->delete($id);
+        $actual = $this->entity->find($id);
+        $this->assertEmpty($actual);
     }
 }
