@@ -17,6 +17,7 @@ class TestDummyEntityRepo extends TestCase
     {
         $this->entity = new DummyEntity;
         $this->repo = new DummyEntityRepo($this->entity);
+        parent::__construct();
     }
 
     /**
@@ -42,7 +43,7 @@ class TestDummyEntityRepo extends TestCase
         $actual = [
             'id' => $actualEntity->id
         ];
-        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
+        $this->assertEquals($expect, $actual);
     }
 
     public function testGetAll()
@@ -60,7 +61,7 @@ class TestDummyEntityRepo extends TestCase
         $actual = [
             'name' => $actualEntity->name
         ];
-        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
+        $this->assertEquals($expect, $actual);
     }
 
     public function testUpdate()
@@ -76,7 +77,7 @@ class TestDummyEntityRepo extends TestCase
         $actual = [
             'name' => $actualEntity->name
         ];
-        $this->assertJsonStringEqualsJsonString(json_encode($expect), json_encode($actual));
+        $this->assertEquals($expect, $actual);
     }
 
     public function testDelete()
