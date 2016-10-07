@@ -60,6 +60,10 @@ abstract class UniflyEntity extends Model
                 // do more guard here
                 $input[$attr] = null;
             }
+
+            if ($input[$attr] === "") {
+                $input[$attr] = null;
+            }
         }
 
         return $input;
