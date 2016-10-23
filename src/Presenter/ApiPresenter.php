@@ -27,6 +27,12 @@ class ApiPresenter
             $response['data'] = $data;
         }
 
-        return response()->json($response, $code);
+        $flag = 0;
+        $is_pretty = \Request::get('pretty', null);
+        if ($is_pretty) {
+            $flag = JSON_PRETTY_PRINT;
+        }
+
+        return response()->json($response, $code, array(), $flag);
     }
 }
