@@ -1,8 +1,9 @@
 <?php
+
 namespace Unisharp\Unifly\Console\Commands;
 
+use Illuminate\Foundation\Composer;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
-use Illuminate\Support\Composer;
 
 class TranslatableMigrationMakeCommand extends MigrateMakeCommand
 {
