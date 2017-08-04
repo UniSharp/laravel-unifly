@@ -1,0 +1,59 @@
+[
+    {
+        "entity_name": "article",
+        "entity_name_tw": "\u6587\u7ae0",
+        "columns": [
+            {
+                "column_name": "title",
+                "comment": "\u6a19\u984c",
+                "mixin": "input",
+                "data_type": "string"
+            },
+            {
+                "column_name": "description",
+                "comment": "\u6558\u8ff0",
+                "mixin": "textarea",
+                "data_type": "text"
+            }
+        ],
+        "features": null
+    },
+    {
+        "entity_name": "article",
+        "entity_name_tw": "\u6587\u7ae0",
+        "columns": [
+            {
+                "column_name": "title",
+                "comment": "\u6a19\u984c",
+                "mixin": "input",
+                "data_type": "string"
+            },
+            {
+                "column_name": "description",
+                "comment": "\u6558\u8ff0",
+                "mixin": "textarea",
+                "data_type": "text"
+            }
+        ],
+        "features": null
+    },
+    {
+        "entity_name": "Post",
+        "entity_name_tw": "\u6587\u7ae0",
+        "columns": [
+            {
+                "column_name": "name",
+                "comment": "\u540d\u7a31",
+                "mixin": "input",
+                "data_type": "string"
+            },
+            {
+                "column_name": "content",
+                "comment": "\u5167\u5bb9",
+                "mixin": "textarea",
+                "data_type": "text"
+            }
+        ],
+        "features": null
+    }
+]
